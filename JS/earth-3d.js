@@ -12,7 +12,7 @@ if(container){
 
   // 地球贴图
   const textureLoader = new THREE.TextureLoader();
-  const earthTexture = textureLoader.load('./static/images/earthmap4k.jpg');
+  const earthTexture = textureLoader.load('static/images/earthmap4k.jpg');
   const earthGeometry = new THREE.SphereGeometry(1, 64, 64);
   const earthMaterial = new THREE.MeshPhongMaterial({map: earthTexture});
   const earthMesh = new THREE.Mesh(earthGeometry, earthMaterial);
@@ -34,11 +34,11 @@ if(container){
 
   // 动物分布点（Sprite）
   const animalPoints = [
-    { lat: 80, lon: 0, animal: 'polar-bear', icon: './static/images/animal-icons/polar-bear.png' },
-    { lat: 75, lon: 60, animal: 'arctic-fox', icon: './static/images/animal-icons/arctic-fox.png' },
-    { lat: 70, lon: 120, animal: 'walrus', icon: './static/images/animal-icons/walrus.png' },
-    { lat: -80, lon: 0, animal: 'emperor-penguin', icon: './static/images/animal-icons/emperor-penguin.png' },
-    { lat: -75, lon: 60, animal: 'antarctic-seal', icon: './static/images/animal-icons/antarctic-seal.png' }
+    { lat: 80, lon: 0, animal: 'polar-bear', icon: 'static/images/animal-icons/polar-bear.png' },
+    { lat: 75, lon: 60, animal: 'arctic-fox', icon: 'static/images/animal-icons/arctic-fox.png' },
+    { lat: 70, lon: 120, animal: 'walrus', icon: 'static/images/animal-icons/walrus.png' },
+    { lat: -80, lon: 0, animal: 'emperor-penguin', icon: 'static/images/animal-icons/emperor-penguin.png' },
+    { lat: -75, lon: 60, animal: 'antarctic-seal', icon: 'static/images/animal-icons/antarctic-seal.png' }
   ];
   animalPoints.forEach(pt => {
     const texture = new THREE.TextureLoader().load(pt.icon);

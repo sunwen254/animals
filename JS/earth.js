@@ -12,7 +12,7 @@ if(container){
 
   // 地球贴图（本地）
   const textureLoader = new THREE.TextureLoader();
-  const earthTexture = textureLoader.load('./static/images/earthmap4k.jpg');
+  const earthTexture = textureLoader.load('static/images/earthmap4k.jpg');
   const earthGeometry = new THREE.SphereGeometry(1, 64, 64);
   const earthMaterial = new THREE.MeshPhongMaterial({map: earthTexture});
   const earthMesh = new THREE.Mesh(earthGeometry, earthMaterial);
