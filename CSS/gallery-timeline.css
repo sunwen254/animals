@@ -1,0 +1,79 @@
+/* gallery-timeline.css - 动物知识时间轴 */
+.gallery-timeline-section {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  margin: 40px 0 60px 0;
+}
+.timeline-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.timeline-up, .timeline-down {
+  background: #38bdf8;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  margin: 4px 0;
+  box-shadow: 0 2px 8px #38bdf888;
+  transition: background 0.2s;
+}
+.timeline-up:hover, .timeline-down:hover { background: #2563eb; }
+.timeline-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 180px;
+  background: #f7fafc;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px #bcdffb88;
+  overflow: hidden;
+}
+.timeline-list li {
+  padding: 16px 12px;
+  font-size: 1.05rem;
+  color: #2563eb;
+  border-bottom: 1px solid #e0e7ef;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.timeline-list li:last-child { border-bottom: none; }
+.timeline-list li.active, .timeline-list li:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.timeline-right {
+  min-width: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.timeline-img-popup {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(59,130,246,0.13);
+  padding: 18px 18px 12px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 260px;
+}
+.timeline-img-popup img {
+  width: 220px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+.timeline-img-caption {
+  font-size: 1.05rem;
+  color: #2563eb;
+  text-align: center;
+} 

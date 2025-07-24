@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>极地动物保护</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .vr-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .vr-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 2;
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+        
+        .back-button:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <div class="vr-container">
+        <iframe id="vrIframe" src="https://www.720yun.com/vr/52ajt5sfsn1" frameborder="no" allow="autoplay"></iframe>
+    </div>
+    <a href="about.html" class="back-button">返回首页</a>
+
+    <script>
+        // 监听来自iframe的消息
+        window.addEventListener('message', function(event) {
+            // 确保消息来自720yun
+            if (event.origin.includes('720yun.com')) {
+                try {
+                    const data = event.data;
+                    console.log('收到消息:', data);
+
+                    // 检查是否是热点点击事件
+                    if (data && (data.type === 'hotspot' || data.type === 'pano_info')) {
+                        // 获取热点ID或标题
+                        const hotspotId = data.hotspotId || data.title || '';
+                        console.log('热点ID或标题:', hotspotId);
+                        
+                        // 转换为小写并去除空格
+                        const cleanId = hotspotId.toLowerCase().trim();
+                        
+                        // 根据热点ID跳转
+                        switch(cleanId) {
+                            case 'penguin':
+                                window.location.href = '帝企鹅.html';
+                                break;
+                            case 'polar_bear':
+                                window.location.href = '北极熊.html';
+                                break;
+                            case 'seal':
+                                window.location.href = '海狮.html';
+                                break;
+                            case 'walrus':
+                                window.location.href = '海象.html';
+                                break;
+                            case 'whale':
+                                window.location.href = '鲸鱼.html';
+                                break;
+                            default:
+                                // 如果是图文热点的点击，尝试从URL中获取ID
+                                if (data.url) {
+                                    const url = data.url.toLowerCase();
+                                    if (url.includes('penguin')) {
+                                        window.location.href = '帝企鹅.html';
+                                    } else if (url.includes('polar_bear')) {
+                                        window.location.href = '北极熊.html';
+                                    } else if (url.includes('seal')) {
+                                        window.location.href = '海狮.html';
+                                    } else if (url.includes('walrus')) {
+                                        window.location.href = '海象.html';
+                                    } else if (url.includes('whale')) {
+                                        window.location.href = '鲸鱼.html';
+                                    }
+                                }
+                                console.log('未匹配的热点:', hotspotId);
+                        }
+                    }
+                } catch (error) {
+                    console.error('处理消息时出错:', error);
+                }
+            }
+        });
+
+        // 添加调试信息
+        document.getElementById('vrIframe').onload = function() {
+            console.log('VR iframe 加载完成');
+        };
+    </script>
+</body>
+</html>

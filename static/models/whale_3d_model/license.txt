@@ -1,0 +1,11 @@
+Model Information:
+* title:	whale 3d model
+* source:	https://sketchfab.com/3d-models/whale-3d-model-e2353562fcfb42948941287f475c3afe
+* author:	JUDE_ARTZZ_STUDIO (https://sketchfab.com/judeartzzstudio)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "whale 3d model" (https://sketchfab.com/3d-models/whale-3d-model-e2353562fcfb42948941287f475c3afe) by JUDE_ARTZZ_STUDIO (https://sketchfab.com/judeartzzstudio) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

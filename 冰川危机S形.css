@@ -1,0 +1,404 @@
+html,body { 
+  margin: 0; 
+  padding: 0; 
+  min-height: 100vh; 
+}
+
+body.lock-scroll, html.lock-scroll { 
+  overflow: hidden !important; 
+}
+
+#iceScrollSections { 
+  position: relative; 
+  min-height: 3200px; 
+  z-index: 1;  /* 设置合适的层级 */
+}
+
+#iceWaterPath { 
+  position: absolute; 
+  left: 0; 
+  top: 0; 
+  z-index: 0; 
+  pointer-events: none; 
+}
+
+/* 流水线样式 */
+#flowContainer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.flow-line {
+  position: absolute;
+  height: 6px;  /* 加粗一点 */
+  background: linear-gradient(to right, 
+    rgba(79, 195, 247, 0.95),
+    rgba(179, 229, 252, 0.8),
+    rgba(79, 195, 247, 0.95)
+  );
+  transform-origin: left center;
+  z-index: 1;  /* 确保流水线在最底层 */
+  box-shadow: 0 0 8px 2px rgba(79, 195, 247, 0.5);
+  overflow: hidden;
+  border-radius: 3px;
+}
+
+/* 主水流效果 */
+.flow-line::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2) 25%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0.2) 75%,
+    transparent
+  );
+  animation: mainFlow 2s linear infinite;
+}
+
+/* 次要水流效果 */
+.flow-line::after {
+  content: '';
+  position: absolute;
+  top: -2px;  /* 延伸出主线一点 */
+  left: 0;
+  width: 200%;
+  height: 10px;  /* 比主线高 */
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1) 25%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0.1) 75%,
+    transparent
+  );
+  filter: blur(2px);
+  animation: secondaryFlow 3s linear infinite;
+}
+
+/* 水波纹效果 */
+.water-ripple {
+  position: absolute;
+  top: -3px;
+  left: 0;
+  width: 100%;
+  height: 12px;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1) 25%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.1) 75%,
+    transparent
+  );
+  filter: blur(1px);
+  animation: rippleEffect 2.5s linear infinite;
+}
+
+.flow-node {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle at center,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(79, 195, 247, 0.9) 40%,
+    rgba(79, 195, 247, 0.4) 80%,
+    transparent 100%
+  );
+  box-shadow: 0 0 6px rgba(79, 195, 247, 0.6);
+  transform: translate(-50%, -50%);
+  z-index: 1;  /* 确保节点也在最底层 */
+}
+
+/* 节点光环 */
+.flow-node::before {
+  content: '';
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  background: radial-gradient(circle at center,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(79, 195, 247, 0.3) 40%,
+    transparent 80%
+  );
+  transform: translate(-50%, -50%);
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+/* 节点波纹 */
+.flow-node::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  transform: translate(-50%, -50%);
+  animation: ripplePulse 2s ease-out infinite;
+}
+
+@keyframes mainFlow {
+  0% {
+    transform: translateX(-50%) translateY(-1px);
+  }
+  50% {
+    transform: translateX(-25%) translateY(1px);
+  }
+  100% {
+    transform: translateX(0%) translateY(-1px);
+  }
+}
+
+@keyframes secondaryFlow {
+  0% {
+    transform: translateX(-50%) scaleY(0.9);
+  }
+  50% {
+    transform: translateX(-25%) scaleY(1.1);
+  }
+  100% {
+    transform: translateX(0%) scaleY(0.9);
+  }
+}
+
+@keyframes rippleEffect {
+  0% {
+    transform: translateX(-30%) scaleY(0.8);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateX(-15%) scaleY(1.2);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(0%) scaleY(0.8);
+    opacity: 0.6;
+  }
+}
+
+@keyframes glowPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0.3;
+  }
+}
+
+@keyframes ripplePulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* 图片容器样式 */
+.ice-section.s-curve {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 100px auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 2;
+}
+
+/* 左侧图片的section */
+.ice-section.s-curve.even {
+  padding-right: 35%;
+  transform: translateX(-50px);
+  flex-direction: row;  /* 图片在左，文字在右 */
+}
+
+/* 右侧图片的section */
+.ice-section.s-curve.odd {
+  padding-left: 20%;
+  transform: translateX(100px);
+  flex-direction: row;  /* 文字在左，图片在右 */
+}
+
+.ice-img-wrap {
+  position: relative;
+  width: 480px;
+  flex: 0 0 480px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3;
+}
+
+.ice-img-wrap img {
+  width: 100%;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  display: block;
+  position: relative;
+  z-index: 3;  /* 确保图片本身也有较高层级 */
+}
+
+/* 中心点标记 */
+.center-point {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(79, 195, 247, 0.2);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 6;
+}
+
+/* 调整图片容器样式以配合流水线 */
+.ice-img-wrap {
+  position: relative;
+  z-index: 3;
+}
+
+.ice-img-wrap::after {
+  content: '';
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(79, 195, 247, 0.15);
+  box-shadow: 0 0 30px rgba(79, 195, 247, 0.3);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.ice-caption {
+  position: relative;
+  z-index: 3;
+  font-size: 1.2rem;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  line-height: 1.8;
+  flex: 1;
+  padding: 0 30px;  /* 添加内边距 */
+}
+
+/* 调整奇数（右侧图片）section中的顺序 */
+.ice-section.s-curve.odd .ice-img-wrap {
+  order: 2;  /* 图片放到最后 */
+}
+
+.ice-section.s-curve.odd .ice-caption {
+  order: 1;  /* 文字放到最前 */
+  text-align: right;  /* 文字右对齐 */
+}
+
+/* 调整偶数（左侧图片）section中的顺序 */
+.ice-section.s-curve.even .ice-img-wrap {
+  order: 1;  /* 图片放到最前 */
+}
+
+.ice-section.s-curve.even .ice-caption {
+  order: 2;  /* 文字放到最后 */
+  text-align: left;  /* 文字左对齐 */
+}
+
+.ice-caption.final {
+  font-size: 2rem; color: #fff; background: none;
+  font-weight: bold; box-shadow: none;
+  text-shadow: 0 2px 8px #1976d2, 0 4px 24px #000, 2px 2px 0 #fff, 0 0 2px #fff;
+}
+#turningText {
+  display: none;
+  position: fixed;
+  top: 28vh; left: 0; width: 100vw;
+  text-align: center; z-index: 3; font-size: 1.8rem; color: #1e293b;
+  text-shadow: 0 2px 12px #1976d2; animation: none;
+}
+#turningText.typewriter span { opacity: 0; transition: opacity 0.18s; }
+#turningText.typewriter .show { opacity: 1; }
+.ice-fact-section {
+  position: absolute; left: 50%; transform: translateX(-50%); width: 420px; text-align:center; margin: 0 auto 100px auto; top:0; opacity:0; transition:opacity 1.2s, top 1.2s; z-index:2;}
+.ice-fact-section.visible { opacity:1; top:0; }
+.fact-number { font-size: 3.2rem; color: #ffb300; font-weight: bold; }
+.fact-desc { font-size: 1.3rem; color: #2563eb; margin-top: 12px; }
+.ice-img-modal { display:none; position:fixed; left:0;top:0;width:100vw;height:100vh;z-index:9999; background:rgba(0,0,0,0.7); align-items:center; justify-content:center; }
+.ice-img-modal img { max-width:80vw; max-height:80vh; border-radius:18px; box-shadow:0 8px 32px #38bdf8cc;}
+.ice-img-modal-close { position:absolute; top:30px; right:60px; color:#fff; font-size:3rem; cursor:pointer;}
+.flow-container {
+  position: absolute;  /* 改回absolute定位 */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;  /* 保持流水线容器在最底层 */
+  overflow: visible;
+}
+
+.flow-container.show {
+  opacity: 1;
+}
+
+@media (max-width: 1200px) {
+  .ice-section.s-curve.even,
+  .ice-section.s-curve.odd,
+  .ice-section.s-curve.even.visible,
+  .ice-section.s-curve.odd.visible {
+    transform: none;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  
+  .ice-caption {
+    padding: 0 15px;
+  }
+}
+@media (max-width: 900px) {
+  .ice-section.s-curve {
+    flex-direction: column !important;
+    padding: 60px 20px !important;
+    margin: 0 auto !important;
+    transform: none !important;
+  }
+
+  .ice-section.s-curve.odd.visible,
+  .ice-section.s-curve.even.visible {
+    transform: none !important;
+  }
+
+  .ice-img-wrap {
+    width: 100%;
+    flex: none;
+  }
+
+  .ice-caption {
+    text-align: center;
+    font-size: 1.4rem;
+  }
+} 

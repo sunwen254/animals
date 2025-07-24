@@ -1,0 +1,11 @@
+Model Information:
+* title:	Walrus, Horniman Museum And Gardens
+* source:	https://sketchfab.com/3d-models/walrus-horniman-museum-and-gardens-b537ea7dad58423db5ac581de72c36a1
+* author:	Horniman Museum (https://sketchfab.com/HornimanMuseum)
+
+Model License:
+* license type:	CC-BY-NC-ND-4.0 (http://creativecommons.org/licenses/by-nc-nd/4.0/)
+* requirements:	Author must be credited. No commercial use. Modified versions can not be distributed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Walrus, Horniman Museum And Gardens" (https://sketchfab.com/3d-models/walrus-horniman-museum-and-gardens-b537ea7dad58423db5ac581de72c36a1) by Horniman Museum (https://sketchfab.com/HornimanMuseum) licensed under CC-BY-NC-ND-4.0 (http://creativecommons.org/licenses/by-nc-nd/4.0/)

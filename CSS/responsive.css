@@ -1,0 +1,82 @@
+/* 响应式样式 */
+@media (max-width: 992px) {
+    /* 导航栏 */
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nav-links {
+        margin-top: 20px;
+        flex-direction: column;
+    }
+
+    .nav-links li {
+        margin: 10px 0;
+    }
+
+    .donate-btn {
+        margin-top: 20px;
+    }
+
+    /* 横幅 */
+    .banner h1 {
+        font-size: 36px;
+    }
+
+    .banner p {
+        font-size: 18px;
+    }
+
+    /* 动物卡片 */
+    .animal-card, .animal-card.reverse {
+        flex-direction: column;
+    }
+
+    .animal-card img, .animal-info {
+        width: 100%;
+    }
+
+    /* 威胁页面 */
+    .threat-item {
+        flex-direction: column;
+    }
+
+    .threat-icon {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+
+    /* 保护措施卡片 */
+    .protection-card {
+        flex-direction: column;
+    }
+
+    .protection-card img, .card-content {
+        width: 100%;
+    }
+
+    /* 联系页面 */
+    .contact-details, .contact-map {
+        width: 100%;
+        padding-right: 0;
+        margin-bottom: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* 现状统计 */
+    .stats {
+        flex-direction: column;
+    }
+
+    /* 图片网格 */
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+
+    /* 模态框 */
+    .modal-content {
+        width: 90%;
+    }
+}

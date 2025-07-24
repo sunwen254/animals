@@ -1,0 +1,905 @@
+/* 动物介绍区域样式 */
+.animals {
+    padding: 4rem 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* 卡片基础样式 */
+.animal-card {
+    display: flex;
+    margin-bottom: 8rem;
+    position: relative;
+    perspective: 1500px;
+    transition: all 0.4s ease;
+}
+
+.animal-card.reverse {
+    flex-direction: row-reverse;
+}
+
+/* 3D容器样式 */
+.animal-3d-container {
+    width: 50%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: grab;
+    will-change: transform;
+}
+
+.animal-3d-container:active {
+    cursor: grabbing;
+}
+
+/* 3D效果增强元素 */
+.animal-3d-container::before {
+    content: '';
+    position: absolute;
+    inset: -20px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+    transform: translateZ(-30px);
+    filter: blur(12px);
+    z-index: -1;
+}
+
+/* 图片容器样式 */
+.animal-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    transform-style: preserve-3d;
+}
+
+.animal-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.75rem;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    transform: translateZ(30px);
+    transition: all 0.3s ease;
+}
+
+/* 状态标签样式 */
+.animal-caption {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+    z-index: 10;
+    transform: translateZ(31px);
+}
+
+.animal-status {
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+/* 信息区域样式 */
+.animal-info {
+    width: 50%;
+    padding: 2rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transform: translateZ(0);
+    transition: all 0.5s ease;
+}
+
+/* 悬停效果 */
+.animal-card:hover .animal-info {
+    transform: translateZ(15px) translateX(var(--hover-offset, 0));
+}
+
+.animal-card:not(.reverse):hover .animal-info {
+    --hover-offset: 20px;
+}
+
+.animal-card.reverse:hover .animal-info {
+    --hover-offset: -20px;
+}
+
+/* 信息内容样式 */
+.animal-info h2 {
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+    color: #1a365d;
+    position: relative;
+}
+
+.animal-info h2::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background: #3b82f6;
+    border-radius: 2px;
+}
+
+.animal-info p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #4b5563;
+    margin-bottom: 2rem;
+}
+
+/* 事实列表样式 */
+.animal-facts {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+}
+
+.fact-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.fact-item span:first-child {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin-bottom: 0.3rem;
+}
+
+.fact-item span:last-child {
+    font-weight: 600;
+    color: #1e293b;
+}
+
+/* 按钮样式 */
+.animal-details-btn {
+    align-self: flex-start;
+    padding: 0.8rem 1.8rem;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.animal-details-btn:hover {
+    background: #2563eb;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+}
+
+/* 响应式调整 */
+@media (max-width: 1024px) {
+    .animal-card {
+        flex-direction: column;
+        margin-bottom: 6rem;
+    }
+
+    .animal-card.reverse {
+        flex-direction: column;
+    }
+
+    .animal-3d-container,
+    .animal-info {
+        width: 100%;
+    }
+
+    .animal-info {
+        padding: 2rem 0;
+    }
+
+    .animal-image-wrapper {
+        height: 350px;
+    }
+}
+
+/* 图片正方形展示与华丽特效 */
+.gallery-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    justify-content: center;
+    margin: 40px 0;
+}
+
+.gallery-item {
+    width: 240px;
+    height: 240px;
+    overflow: hidden;
+    border-radius: 22px;
+    box-shadow: 0 6px 32px rgba(0,0,0,0.16), 0 1.5px 6px rgba(0,150,255,0.08);
+    position: relative;
+    background: linear-gradient(135deg, #e0f7fa 0%, #fff 100%);
+    transition: transform 0.4s cubic-bezier(.25,1.7,.45,.87), box-shadow 0.4s, filter 0.4s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    perspective: 800px;
+}
+
+.gallery-item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 70% 30%, rgba(0,200,255,0.12) 0%, transparent 70%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.gallery-item:hover {
+    transform: scale(1.12) rotate(-3deg);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.22), 0 2px 12px rgba(0,200,255,0.18);
+    filter: brightness(1.08) saturate(1.18) drop-shadow(0 0 12px #00eaff88);
+    z-index: 3;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* 保证图片完整显示 */
+    background: radial-gradient(circle, #e0f7fa 60%, transparent 100%);
+    /* 可加虚化/渐变美化留白 */
+    transition: transform 0.5s cubic-bezier(.25,1.7,.45,.87), filter 0.4s;
+    z-index: 2;
+    position: relative;
+}
+
+.gallery-item:hover img {
+    /* 3D旋转+浮动 */
+    transform: scale(1.08) rotateY(12deg) rotateX(6deg) translateY(-8px) !important;
+    filter: brightness(1.1) drop-shadow(0 0 24px #00eaffcc);
+}
+
+.item-overlay {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    background: linear-gradient(0deg, rgba(0,0,0,0.55) 70%, transparent 100%);
+    color: #fff;
+    padding: 18px 14px 14px 14px;
+    opacity: 0;
+    transition: opacity 0.4s;
+    border-radius: 0 0 22px 22px;
+    pointer-events: none;
+    z-index: 4;
+}
+
+.gallery-item:hover .item-overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* 动物详情弹窗3D特效（缩小版+交互） */
+.animal-modal {
+    position: fixed;
+    left: 0; top: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.55);
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.4s;
+    perspective: 1200px;
+}
+.animal-modal.active {
+    visibility: visible;
+    opacity: 1;
+    display: flex !important;
+}
+.animal-modal-content {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.22);
+    padding: 28px 18px 18px 18px;
+    min-width: 200px;
+    max-width: 40vw;
+    max-height: 70vh;
+    overflow-y: auto;
+    transform: scale(0.7) rotateY(30deg);
+    transition: transform 0.5s cubic-bezier(.25,1.7,.45,.87);
+    will-change: transform;
+    position: relative;
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+}
+.animal-modal-content img {
+    width: 120px !important;
+    height: 120px !important;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 16px rgba(59,130,246,0.18);
+    transition: transform 0.4s, box-shadow 0.4s;
+    cursor: pointer;
+}
+.animal-modal-content img:hover {
+    transform: scale(1.15) rotateY(10deg) rotateX(6deg);
+    box-shadow: 0 8px 32px #3b82f6cc;
+}
+.animal-modal-content .interactive-card {
+    background: linear-gradient(135deg,#e0f7fa 0%,#fff 100%);
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(0,150,255,0.10);
+    padding: 16px 12px;
+    margin: 10px 0;
+    transition: transform 0.4s, box-shadow 0.4s;
+    cursor: pointer;
+    perspective: 600px;
+}
+.animal-modal-content .interactive-card:hover {
+    transform: scale(1.06) rotateY(8deg) rotateX(4deg);
+    box-shadow: 0 8px 32px #00eaff88;
+}
+
+/* about.html动物卡片图片更大更炫酷3D特效 */
+.animal-image-wrapper {
+    height: 600px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    perspective: 1200px;
+    position: relative;
+}
+.animal-image {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 1.2rem;
+    box-shadow: 0 32px 80px 0 rgba(0,200,255,0.18), 0 8px 32px rgba(0,0,0,0.18);
+    transition: transform 0.5s cubic-bezier(.25,1.7,.45,.87), box-shadow 0.5s, filter 0.4s;
+    will-change: transform;
+    background: linear-gradient(120deg,#e0f7fa 60%,#fff 100%);
+}
+.animal-image-wrapper:hover .animal-image {
+    transform: scale(1.12) rotateY(18deg) rotateX(8deg) translateY(-18px);
+    filter: brightness(1.08) saturate(1.18) drop-shadow(0 0 32px #00eaffcc);
+    box-shadow: 0 48px 120px 0 #00eaff55, 0 12px 48px #3b82f6cc;
+    z-index: 2;
+}
+
+/* 弹窗交互卡片3D翻转特效 */
+.interactive-card {
+    width: 160px;
+    height: 180px;
+    perspective: 800px;
+    margin: 0 auto 10px auto;
+    position: relative;
+    transition: box-shadow 0.3s;
+}
+.interactive-card .card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 14px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 12px rgba(0,150,255,0.10);
+    transition: transform 0.6s cubic-bezier(.25,1.7,.45,.87);
+}
+.interactive-card .card-front {
+    z-index: 2;
+}
+.interactive-card .card-back {
+    transform: rotateY(180deg);
+    z-index: 1;
+}
+.interactive-card.flipped .card-front {
+    transform: rotateY(180deg);
+}
+.interactive-card.flipped .card-back {
+    transform: rotateY(0deg);
+}
+.interactive-card .card-desc {
+    margin-top: 10px;
+    font-size: 0.98rem;
+    color: #1e293b;
+    text-align: center;
+}
+
+/* 3D立体书本展示区（增强） */
+.book-3d-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 700px;
+  margin: 80px 0 100px 0;
+  z-index: 2;
+}
+.book-3d-container {
+  perspective: 2200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* 让书本整体平躺（俯视） */
+.book-3d {
+  display: flex;
+  width: 1100px;
+  height: 600px;
+  position: relative;
+  transform-style: preserve-3d;
+  box-shadow: 0 64px 128px 0 #bcdffb55, 0 8px 32px #3b82f6cc;
+  border-radius: 32px;
+  background: linear-gradient(120deg,#f8fafc 60%,#e0f7fa 100%);
+  transition: transform 0.7s cubic-bezier(.25,1.7,.45,.87);
+  transform: rotateX(65deg);
+}
+/* 书本厚度立体感 */
+.book-3d::before {
+  content: '';
+  position: absolute;
+  left: 48%;
+  top: 0;
+  width: 4%;
+  height: 100%;
+  background: linear-gradient(90deg, #bcdffb 0%, #e0f7fa 50%, #bcdffb 100%);
+  box-shadow: 0 0 32px #bcdffb88;
+  z-index: 2;
+  border-radius: 12px;
+  pointer-events: none;
+}
+/* 书脊和多页厚度 */
+.book-spine {
+  position: absolute;
+  left: 49.5%;
+  top: 0;
+  width: 18px;
+  height: 100%;
+  background: linear-gradient(90deg, #bcdffb 0%, #e0f7fa 50%, #bcdffb 100%);
+  box-shadow: 0 0 32px #bcdffb88, 0 0 0 6px #e0f7fa inset;
+  z-index: 10;
+  border-radius: 12px;
+  pointer-events: none;
+}
+.book-multi-edges {
+  position: absolute;
+  left: 0; right: 0; bottom: -10px;
+  height: 24px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 5;
+  pointer-events: none;
+}
+.book-edge-layer {
+  width: 22%;
+  height: 100%;
+  background: linear-gradient(180deg, #e0e7ef 60%, #bcdffb 100%);
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 8px 16px #bcdffb44;
+  margin: 0 2px;
+}
+.book-edge {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 18px;
+  background: linear-gradient(90deg, #e0e7ef 0%, #bcdffb 100%);
+  box-shadow: 2px 0 8px #bcdffb44 inset;
+  z-index: 2;
+  border-radius: 8px;
+  pointer-events: none;
+}
+.book-left .book-edge { left: -18px; height: 96%; }
+.book-right .book-edge { right: -18px; height: 96%; }
+
+/* 翻页动画层 */
+.book-flip-page {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg,#fff 60%,#e0f7fa 100%);
+  box-shadow: 0 8px 32px #bcdffb44, 0 2px 12px #bcdffb22;
+  border-radius: 0 24px 24px 0;
+  z-index: 20;
+  transform-origin: left center;
+  display: none;
+  overflow: hidden;
+}
+.book-flip-page.flipping {
+  display: block;
+  animation: book-flip-cover 0.9s cubic-bezier(.25,1.7,.45,.87) forwards;
+}
+@keyframes book-flip-cover {
+  0% { transform: rotateY(0deg); }
+  100% { transform: rotateY(-180deg); }
+}
+
+.book-page {
+  width: 50%;
+  height: 100%;
+  position: relative;
+  background: #f5f7fa;
+  box-shadow: 0 2px 32px #bcdffb22 inset;
+  border-radius: 0 24px 24px 0;
+  overflow: visible;
+  transition: box-shadow 0.5s, transform 0.7s cubic-bezier(.25,1.7,.45,.87);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.book-left {
+  border-radius: 24px 0 0 24px;
+  box-shadow: -12px 0 48px #bcdffb33 inset;
+  background: linear-gradient(120deg,#e0f7fa 60%,#fff 100%);
+  overflow: visible;
+}
+.book-right {
+  border-radius: 0 24px 24px 0;
+  box-shadow: 12px 0 48px #bcdffb33 inset;
+  background: linear-gradient(120deg,#fff 60%,#e0f7fa 100%);
+  overflow: visible;
+}
+/* 优化图片初始角度，保证可见性 */
+.book-photo {
+  width: 92%;
+  height: 86%;
+  object-fit: contain;
+  border-radius: 18px;
+  box-shadow: 0 16px 48px #38bdf8cc, 0 4px 24px #bcdffb88;
+  transition: transform 0.7s cubic-bezier(.25,1.7,.45,.87), box-shadow 0.5s;
+  transform: rotateX(75deg);
+  cursor: pointer;
+  will-change: transform;
+  background: #fff;
+}
+.book-photo:hover {
+  transform: rotateX(0deg);
+  box-shadow: 0 32px 96px #38bdf8cc, 0 12px 48px #bcdffb88;
+  z-index: 2;
+}
+.book-info {
+  padding: 48px 28px 48px 28px;
+  background: rgba(255,255,255,0.96);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px #bcdffb44;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 320px;
+  max-width: 90%;
+}
+.book-title {
+  font-size: 2.2rem;
+  color: #2563eb;
+  margin-bottom: 18px;
+}
+.book-desc {
+  font-size: 1.18rem;
+  color: #1e293b;
+  margin-bottom: 28px;
+}
+.book-detail-btn {
+  background: #38bdf8;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 38px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 18px;
+}
+.book-detail-btn:hover {
+  background: #2563eb;
+}
+.book-3d::after {
+  content: '';
+  position: absolute;
+  left: 10%;
+  bottom: -48px;
+  width: 80%;
+  height: 60px;
+  background: radial-gradient(ellipse at center, #bcdffb55 0%, transparent 80%);
+  filter: blur(4px);
+  z-index: 0;
+  pointer-events: none;
+}
+/* 3D翻页动画 */
+.book-3d.flipping-left {
+  animation: book-flip-left 0.7s cubic-bezier(.25,1.7,.45,.87);
+}
+.book-3d.flipping-right {
+  animation: book-flip-right 0.7s cubic-bezier(.25,1.7,.45,.87);
+}
+@keyframes book-flip-left {
+  0% { transform: rotateY(0deg); }
+  40% { transform: rotateY(-30deg) scale(0.98); }
+  100% { transform: rotateY(0deg); }
+}
+@keyframes book-flip-right {
+  0% { transform: rotateY(0deg); }
+  40% { transform: rotateY(30deg) scale(0.98); }
+  100% { transform: rotateY(0deg); }
+}
+.book-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(56,189,248,0.85);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 54px;
+  height: 54px;
+  font-size: 2.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 12px #38bdf888;
+  z-index: 10;
+  transition: background 0.2s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.92;
+}
+.book-prev { left: 18px; }
+.book-next { right: 18px; }
+.book-nav-btn:hover {
+  background: #2563eb;
+  transform: translateY(-50%) scale(1.12);
+}
+/* 详情弹窗 */
+.book-modal {
+  position: fixed;
+  left: 0; top: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+}
+.book-modal-content {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px #38bdf8cc;
+  padding: 32px 24px 24px 24px;
+  min-width: 260px;
+  max-width: 420px;
+  max-height: 70vh;
+  overflow-y: auto;
+  position: relative;
+  text-align: left;
+}
+.book-modal-close {
+  position: absolute;
+  right: 18px;
+  top: 12px;
+  font-size: 1.8rem;
+  color: #2563eb;
+  cursor: pointer;
+  font-weight: bold;
+  transition: color 0.2s;
+}
+.book-modal-close:hover {
+  color: #e67c73;
+}
+.animal-3d-main {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-height: 800px;
+  background: linear-gradient(to bottom,
+    rgba(13, 25, 42, 0.95) 0%,
+    rgba(13, 25, 42, 0.85) 100%
+  );
+  overflow: hidden;
+}
+
+/* 背景冰川纹理 */
+.ice-texture {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: 
+    linear-gradient(120deg, rgba(255,255,255,0.10) 0%, transparent 100%),
+    url('../static/images/ice_surface.jpg') center center/cover no-repeat;
+  opacity: 0.32;
+  mix-blend-mode: lighten;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 极光效果 */
+.aurora-effect {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: 
+    radial-gradient(ellipse at 60% 20%, rgba(80,200,255,0.18) 0%, rgba(0,0,0,0) 60%),
+    linear-gradient(120deg, rgba(0,255,255,0.13) 0%, rgba(0,0,0,0) 70%),
+    linear-gradient(200deg, rgba(255,200,255,0.10) 10%, rgba(0,0,0,0) 80%),
+    linear-gradient(217deg, rgba(48,206,231,0.10), rgba(48,206,231,0) 70%),
+    linear-gradient(127deg, rgba(63,251,161,0.10), rgba(63,251,161,0) 70%),
+    linear-gradient(336deg, rgba(149,48,231,0.10), rgba(149,48,231,0) 70%);
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 1;
+  animation: auroraFlow 15s ease-in-out infinite alternate;
+}
+
+@keyframes auroraFlow {
+  0% { filter: blur(0px) brightness(1); }
+  50% { filter: blur(2px) brightness(1.08); }
+  100% { filter: blur(0px) brightness(1); }
+}
+
+body {
+  background: linear-gradient(to bottom, #0a1a2f 0%, #1e3557 100%);
+}
+
+/* Safari 兼容性修复 */
+.animal-status {
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.animal-info-panel {
+  position: absolute;
+  right: 10%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 35%;
+  padding: 3rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.1),
+    0 1px 2px rgba(255, 255, 255, 0.05);
+  z-index: 2;
+}
+
+.animal-info-card {
+  color: #fff;
+}
+
+.animal-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(120deg, #fff, #a5f3fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 10px rgba(165, 243, 252, 0.3);
+}
+
+.animal-latin {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+}
+
+.animal-desc {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 2rem;
+}
+
+.animal-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-item {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 0.5rem;
+}
+
+.stat-value {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.animal-status {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+/* 添加雪花效果 */
+@keyframes snowfall {
+  0% {
+    transform: translateY(-100%) rotate(0deg);
+}
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+  }
+}
+
+.snowflake {
+  position: fixed;
+  color: #fff;
+  font-size: 1em;
+  font-family: Arial;
+  text-shadow: 0 0 1px #000;
+  animation: snowfall linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+  .animal-3d-view {
+    width: 50%;
+    left: 5%;
+  }
+  
+  .animal-info-panel {
+    width: 40%;
+    right: 5%;
+  }
+}
+
+@media (max-width: 768px) {
+  .animal-3d-main {
+    height: auto;
+    min-height: 100vh;
+}
+  
+  .animal-3d-view {
+  position: relative;
+    width: 90%;
+    height: 50vh;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 2rem;
+  }
+  
+  .animal-info-panel {
+  position: relative;
+    width: 90%;
+    right: auto;
+    transform: none;
+    margin: 2rem auto;
+  }
+}

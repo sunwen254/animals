@@ -1,0 +1,15 @@
+/* aurora-effect.css - 页眉极光动画特效 */
+.aurora-effect {
+  width: 100%;
+  height: 120px;
+  position: relative;
+  overflow: hidden;
+  background: transparent;
+  z-index: 2;
+  margin-bottom: 24px;
+}
+.aurora-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+} 

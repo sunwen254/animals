@@ -1,0 +1,233 @@
+/* 重置和基础样式 */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  background: url('./static/images/background.jpg') no-repeat center center fixed !important;
+  background-size: cover !important;
+  font-family: '微软雅黑', Arial, sans-serif;
+  color: #fff;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* 背景遮罩 */
+body::before {
+  content: '';
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.92) 0%,
+    rgba(0, 0, 0, 0.85) 50%,
+    rgba(0, 0, 0, 0.92) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* 内容区域 */
+#content {
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 1.2s;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+#content.show {
+  opacity: 1;
+}
+
+/* 标题样式 */
+.title {
+  color: #fff;
+  text-align: center;
+  margin-top: 12vh;
+  font-size: 2.6rem;
+  letter-spacing: 2px;
+  z-index: 10;
+  position: relative;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+}
+
+.subtitle {
+  color: #fff;
+  text-align: center;
+  font-size: 1.5rem;
+  margin: 1.5rem auto 0;
+  max-width: 800px;
+  line-height: 1.8;
+  position: relative;
+  z-index: 10;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  opacity: 0.9;
+}
+
+.subtitle span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+}
+
+.subtitle span.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.desc {
+  color: #fff;
+  text-align: center;
+  font-size: 1.3rem;
+  margin: 2rem auto 0 auto;
+  max-width: 600px;
+  line-height: 2;
+  min-height: 4em;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+
+.desc span {
+  opacity: 0;
+  transition: opacity 0.18s;
+}
+
+/* 开始按钮 */
+#startBtn {
+  display: none;
+  position: fixed;
+  left: 50%;
+  top: 60vh;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  background: linear-gradient(90deg,#38bdf8 0%,#2563eb 100%);
+  color: #fff;
+  border: none;
+  border-radius: 32px;
+  padding: 22px 64px;
+  font-size: 2.1rem;
+  font-weight: bold;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.8s;
+}
+
+#startBtn.show {
+  opacity: 1;
+}
+
+#startBtn:hover {
+  background: linear-gradient(90deg,#2563eb 0%,#38bdf8 100%);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+  transform: translate(-50%, -52%);
+}
+
+/* 滚动区域 */
+#iceScrollSections {
+  position: relative;
+  z-index: 2;
+  min-height: 3200px;
+  opacity: 0;
+  transition: opacity 1.2s;
+  display: none;
+  margin-top: 40px;
+}
+
+#iceScrollSections.show {
+  display: block;
+  opacity: 1;
+}
+
+/* 危机展示 */
+#crisisShowcase {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 4;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.crisis-group {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  max-width: 90vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.crisis-group.show {
+  opacity: 1;
+}
+
+.crisis-group img {
+  width: 100%;
+  max-width: 800px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.crisis-group .crisis-text {
+  font-size: 1.8rem;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  letter-spacing: 2px;
+  line-height: 1.5;
+}
+
+/* 流水线画布 */
+#mainFlowCanvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.2s;
+  display: none;
+}
+
+#mainFlowCanvas.show {
+  display: block;
+  opacity: 1;
+}
+
+/* 动画关键帧 */
+@keyframes crisisDropIn {
+  0% { opacity: 0; transform: scale(0.5) translateY(-320px); }
+  60% { opacity: 1; transform: scale(1.1) translateY(32px); }
+  100% { opacity: 1; transform: scale(0.98) translateY(0); }
+}
+
+@keyframes cardIn {
+  0% { opacity: 0; transform: translateX(-50%) translateY(-120px) scale(0.8);}
+  60% { opacity: 1; transform: translateX(-50%) translateY(12px) scale(1.05);}
+  100% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1);}
+} 

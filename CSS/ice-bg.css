@@ -1,0 +1,15 @@
+/* ice-bg.css - 全站3D冰块背景 */
+#earth-3d-container {
+  position: relative;
+  z-index: 10;
+  background: transparent;
+}
+#ice-bg-canvas {
+  position: fixed;
+  left: 0; top: 0; width: 100vw; height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+  background: transparent;
+  opacity: 0.92;
+}
+body { background: transparent !important; } 
