@@ -694,15 +694,35 @@
   color: #e67c73;
 }
 .animal-3d-main {
-  position: relative;
-  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   height: 100vh;
-  min-height: 800px;
-  background: linear-gradient(to bottom,
-    rgba(13, 25, 42, 0.95) 0%,
-    rgba(13, 25, 42, 0.85) 100%
-  );
+  min-height: 700px; /* 缩小最小高度 */
+  width: 100vw;
+  padding: 0 2rem; /* 缩小内边距 */
+  gap: 3rem; /* 增加/调整间距 */
+  background: transparent; /* 使3D区域背景透明以显示视频 */
   overflow: hidden;
+}
+.animal-3d-view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40vw; /* 调整基础宽度 */
+  height: 40vw; /* 保持正方形 */
+  max-width: 650px; /* 缩小最大尺寸 */
+  max-height: 650px; /* 缩小最大尺寸 */
+  min-width: 300px; /* 调整最小尺寸 */
+  min-height: 300px; /* 调整最小尺寸 */
+  margin: 0;
+  aspect-ratio: 1 / 1; /* 强制正方形 */
+  position: relative; /* 用于定位 */
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.25) 15%, rgba(255, 255, 255, 0) 65%); /* 再次调亮光晕，使其更集中 */
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2); /* 边框也调亮 */
+  box-shadow: 0 0 60px rgba(255, 255, 255, 0.1) inset; /* 内阴影调亮 */
 }
 
 /* 背景冰川纹理 */
@@ -748,7 +768,37 @@
 }
 
 body {
-  background: linear-gradient(to bottom, #0a1a2f 0%, #1e3557 100%);
+  background: #0a1a2f; /* 保留一个深色底色以防视频加载失败 */
+}
+
+.video-background-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -1;
+}
+
+#background-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(10, 25, 48, 0.5); /* 降低遮罩不透明度以提亮视频 */
+}
+
+/* 移除旧的背景效果 */
+.ice-texture, .aurora-effect {
+  display: none !important;
 }
 
 /* Safari 兼容性修复 */
@@ -764,86 +814,134 @@ body {
 }
 
 .animal-info-panel {
-  position: absolute;
-  right: 10%;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 35%;
-  padding: 3rem;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow:
-    0 4px 24px rgba(0, 0, 0, 0.1),
-    0 1px 2px rgba(255, 255, 255, 0.05);
-  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  /* 垂直居中 */
+  align-items: flex-start; /* 左对齐内容 */
+  height: auto; /* 高度自适应 */
+  min-width: 450px; /* 增加最小宽度 */
+  max-width: 550px; /* 增加最大宽度 */
+  flex: 1;
+  padding-left: 0; /* 重置内边距 */
 }
 
 .animal-info-card {
-  color: #fff;
+  background: rgba(248, 250, 252, 0.95) !important; /* 米白档案卡背景 + 透明度，强制生效 */
+  color: #1e293b; /* 深色文字 */
+  border: 1px solid #e2e8f0;
+  border-radius: 16px; /* 稍微减小圆角 */
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative; /* 用于定位伪元素和状态戳 */
+  overflow: hidden; /* 防止状态戳溢出 */
+}
+
+.animal-info-card::before {
+  content: 'POLARIS ARCHIVE';
+  position: absolute;
+  top: 1.5rem;
+  left: -45px;
+  transform: rotate(-90deg);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #cbd5e1;
+  letter-spacing: 2px;
+}
+
+.animal-status {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #3b82f6; /* 统一的蓝色戳印 */
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  border: 4px solid #f8fafc;
+  box-shadow: 0 0 0 1px #3b82f6;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
 }
 
 .animal-title {
-  font-size: 3rem;
-  font-weight: 700;
+  background: none;
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: unset;
+  color: #111827;
+  text-shadow: none;
+  font-size: 6rem !important; /* 恢复到测试大小并强制生效 */
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 1rem;
   margin-bottom: 1.5rem;
-  background: linear-gradient(120deg, #fff, #a5f3fc);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 2px 10px rgba(165, 243, 252, 0.3);
+  margin-top: 2rem; /* 为状态戳留出空间 */
 }
 
 .animal-latin {
-  font-size: 1.2rem;
-  color: rgba(255, 255, 255, 0.6);
-  font-style: italic;
+  color: #64748b;
+  font-size: 1.8rem !important; /* 增大并强制生效 */
+  margin-top: 0.25rem;
 }
 
 .animal-desc {
-  font-size: 1.1rem;
-  line-height: 1.8;
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 2rem;
+  color: #334155;
+  font-size: 1.5rem !important; /* 增大并强制生效 */
+  line-height: 1.7;
+  margin-bottom: auto; /* 自动撑开，将stats推到底部 */
+  padding-bottom: 1.5rem;
 }
 
 .animal-stats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  border-top: 1px dashed #cbd5e1;
+  padding-top: 1.5rem;
+  margin: 0;
+  width: 100%;
 }
 
 .stat-item {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 1rem;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: none;
+  border: none;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 1rem;
+}
+
+.stat-item:hover {
+    transform: none; /* 移除旧的悬停效果 */
+    background: none;
 }
 
 .stat-label {
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.5);
-  margin-bottom: 0.5rem;
+  color: #475569;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 1.4rem !important; /* 增大并强制生效 */
 }
 
 .stat-value {
-  font-size: 1.4rem;
+  color: #1e293b;
   font-weight: 600;
-  color: #fff;
-}
-
-.animal-status {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  margin-bottom: 1rem;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #fff;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  background-color: #eef2f7;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  font-size: 1.4rem !important; /* 增大并强制生效 */
 }
 
 /* 添加雪花效果 */
@@ -869,14 +967,28 @@ body {
 
 /* 响应式设计 */
 @media (max-width: 1200px) {
-  .animal-3d-view {
-    width: 50%;
-    left: 5%;
+  .animal-3d-main {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+    justify-content: flex-start;
   }
-  
+  .animal-3d-view {
+    width: 90vw;
+    min-width: 0;
+    margin: 0 auto 2rem auto;
+    height: 40vh;
+    max-height: 60vh;
+    margin-left: 0;
+    margin-right: 0;
+  }
   .animal-info-panel {
-    width: 40%;
-    right: 5%;
+    height: auto;
+    min-width: 0;
+    max-width: 100vw;
+    margin: 2rem auto;
+    padding-left: 0; /* 在移动端移除特定内边距 */
+    align-items: center; /* 在移动端居中对齐 */
   }
 }
 
@@ -893,6 +1005,8 @@ body {
     left: 50%;
     transform: translateX(-50%);
     margin-top: 2rem;
+    align-items: center; /* 在移动端居中对齐 */
+    text-align: center;
   }
   
   .animal-info-panel {
@@ -901,5 +1015,103 @@ body {
     right: auto;
     transform: none;
     margin: 2rem auto;
+  }
+}
+
+/* 保证3D模型和卡片并排居中且可见 */
+.animal-3d-main {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  z-index: 10;
+}
+.animal-3d-view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.animal-3d-container {
+  width: 100%; /* 宽度占满容器 */
+  height: 100%; /* 高度占满容器 */
+  min-width: 0;
+  min-height: 0;
+  background: transparent;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.animal-info-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch; /* 让子元素拉伸 */
+  width: 40vw; /* 同展示框 */
+  height: 40vw; /* 同展示框 */
+  max-width: 650px; /* 同展示框 */
+  max-height: 650px; /* 同展示框 */
+  min-width: 300px; /* 同展示框 */
+  min-height: 300px; /* 同展示框 */
+  padding: 0;
+}
+.animal-info-card {
+  font-size: 1rem; /* 调整基础字号 */
+}
+.animal-title {
+  font-size: 3rem; /* 调整标题字号 */
+}
+.animal-latin {
+  font-size: 1.2rem;
+}
+.animal-desc {
+  font-size: 1.1rem;
+}
+.animal-stats {
+  font-size: 1rem;
+}
+.stat-value {
+  font-size: 1.5rem;
+}
+@media (max-width: 900px) {
+  .animal-3d-main {
+    flex-direction: column !important;
+    height: auto;
+    min-height: 100vh;
+    justify-content: flex-start;
+  }
+  .animal-3d-view, .animal-info-panel {
+    width: 90vw; /* 调整宽度 */
+    max-width: 650px; /* 调整最大宽度 */
+    padding: 0;
+    align-items: center; /* 居中对齐 */
+  }
+  .animal-3d-container {
+    width: 90vw;
+    height: auto; /* 在移动端自适应高度 */
+    aspect-ratio: 1 / 1; /* 在移动端也尽量保持正方形 */
+    max-height: 500px;
+    min-width: 0;
+    min-height: 250px;
+  }
+  .animal-info-card {
+    text-align: left; /* 在移动端也保持左对齐 */
+  }
+  .animal-title {
+    font-size: 2.5rem !important; /* 增大并强制生效 */
+  }
+  .animal-desc {
+    font-size: 1.1rem !important; /* 增大并强制生效 */
+  }
+  .stat-label {
+    font-size: 1rem !important; /* 增大并强制生效 */
+  }
+  .stat-value {
+    font-size: 1.05rem !important; /* 增大并强制生效 */
   }
 }

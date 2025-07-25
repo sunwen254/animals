@@ -389,6 +389,7 @@ section {
     justify-content: center;
     z-index: 9999;
     padding-top: 5vh;
+    -webkit-backdrop-filter: blur(0); /* 添加 -webkit- 前缀 */
     backdrop-filter: blur(0);
     transition: opacity 0.3s ease;
 }
@@ -632,12 +633,12 @@ section {
 }
 
 .animal-info h2 {
-    font-size: 32px;
+    font-size: 36px; /* 增大字体 */
     margin-bottom: 20px;
 }
 
 .animal-info p {
-    font-size: 16px;
+    font-size: 18px; /* 增大字体 */
     margin-bottom: 30px;
 }
 
@@ -1550,6 +1551,7 @@ section {
   color: #fff;
   font-size: 1.2em;
   opacity: 0.85;
+  -webkit-user-select: none; /* 添加 -webkit- 前缀 */
   user-select: none;
   pointer-events: none;
   filter: drop-shadow(0 2px 4px #bcdffb);
