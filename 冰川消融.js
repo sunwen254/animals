@@ -1,4 +1,3 @@
-// 移除海平面相关代码，保留其他功能
 document.addEventListener('DOMContentLoaded', () => {
   const startBtn = document.getElementById('startBtn');
   const content = document.getElementById('content');
@@ -169,4 +168,31 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.ice-img-wrap img').forEach(img => {
     observer.observe(img);
   });
+
+  // 新增：监听 mainFlowCanvas 是否进入视口，进入时显示，离开时隐藏
+  if (mainFlowCanvas) {
+    const flowObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          mainFlowCanvas.classList.add('show');
+        } else {
+          mainFlowCanvas.classList.remove('show');
+        }
+      });
+    }, { threshold: 0.1 });
+    flowObserver.observe(mainFlowCanvas);
+  }
+
+  // 新增：监听底部锚点，自动跳转回首页
+  const backToIndex = document.getElementById('backToIndex');
+  if (backToIndex) {
+    const backObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          window.location.href = 'index.html';
+        }
+      });
+    }, { threshold: 0.7 });
+    backObserver.observe(backToIndex);
+  }
 }); 
