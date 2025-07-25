@@ -36,17 +36,19 @@ body::before {
 
 /* 内容区域 */
 #content {
-  position: relative;
+  position: fixed;
+  top: 15vh; /* 调整位置到视口顶部区域 */
+  left: 50%;
+  transform: translateX(-50%); /* 只进行水平居中 */
+  text-align: center;
   z-index: 2;
-  opacity: 0;
-  transition: opacity 1.2s;
-  width: 100%;
-  padding: 20px;
-  box-sizing: border-box;
+  transition: opacity 0.5s ease;
+  opacity: 0; /* 默认隐藏，由JS在点击后控制显示 */
+  width: 90%; /* 避免在大屏幕上过宽 */
 }
 
 #content.show {
-  opacity: 1;
+  opacity: 1; /* JS添加show类后显示 */
 }
 
 /* 标题样式 */
@@ -61,11 +63,47 @@ body::before {
   text-shadow: 0 2px 12px rgba(0,0,0,0.5);
 }
 
+#content .title, #content .subtitle {
+  opacity: 0; /* 默认隐藏标题和副标题 */
+  transition: opacity 0.5s ease;
+}
+
+#content.show .title, #content.show .subtitle {
+  opacity: 1; /* 当#content显示时，再让标题和副标题可见 */
+}
+
+.title-char {
+  display: inline-block;
+  opacity: 0; /* 确保动画前的单个字符是透明的，以便由动画控制其出现 */
+}
+
+.title-char.animate {
+  animation: smash-down 0.8s cubic-bezier(0.36, -0.04, 0.2, 1.5) forwards;
+}
+
+@keyframes smash-down {
+  from {
+    transform: translateY(-150px) scale(2);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(15px) scale(0.9);
+    opacity: 1;
+  }
+  80% {
+    transform: translateY(-8px) scale(1.05);
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
 .subtitle {
   color: #fff;
   text-align: center;
-  font-size: 1.5rem;
-  margin: 1.5rem auto 0;
+  font-size: 1.2rem;
+  margin: 15px auto 0;
   max-width: 800px;
   line-height: 1.8;
   position: relative;
@@ -162,10 +200,11 @@ body::before {
   display: flex;
   justify-content: center;
   align-items: center;
+  /* 移除margin-top，使用绝对定位居中 */
 }
 
 .crisis-group {
-  position: absolute;
+  position: absolute; /* 使用绝对定位，以便后续用JS控制居中 */
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -230,4 +269,32 @@ body::before {
   0% { opacity: 0; transform: translateX(-50%) translateY(-120px) scale(0.8);}
   60% { opacity: 1; transform: translateX(-50%) translateY(12px) scale(1.05);}
   100% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1);}
+}
+
+#snowfall-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.snowflake {
+  position: absolute;
+  top: -10px;
+  color: white;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+  opacity: 0.8;
+  pointer-events: none;
+  animation: snowfall linear infinite;
+}
+
+@keyframes snowfall {
+  to {
+    transform: translateY(105vh) rotate(600deg);
+    opacity: 0;
+  }
 } 

@@ -9,13 +9,18 @@
 <body>
     
     <div class="immersion-background">
-        <iframe src="https://www.720yun.com/vr/52ajt5sfsn1" frameborder="0" allowfullscreen allow="autoplay; fullscreen; xr-spatial-tracking; vr"></iframe>
+        <div class="iframe-container">
+            <div class="logo-overlay">
+                <img src="static/images/极地之观logo.jpg" alt="极地之观">
+            </div>
+            <iframe src="https://www.720yun.com/vr/52ajt5sfsn1?hidelogo=1&hidetitle=1&hideuserinfo=1&hideinfo=1" frameborder="0" allowfullscreen allow="autoplay; fullscreen; xr-spatial-tracking; vr"></iframe>
+        </div>
     </div>
 
     <!-- <div class="immersion-overlay"></div> -->
 
     <div class="immersion-content">
-        <h1 class="immersion-title">每一寸消融，都是生命的哀鸣</h1>
+        <h1 class="immersion-title"><span>每一寸消融，都是生命的哀鸣</span></h1>
         <p class="immersion-subtitle">当冰川退去，它们的家园随之沉没。触碰下方，亲眼见证这正在发生的危机。</p>
         <a href="冰川消融.html" class="immersion-button">
             <span class="crack"></span>
@@ -176,5 +181,6 @@
     });
     </script>
 
+    <div class="iframe-bottom-mask"></div>
 </body>
 </html>

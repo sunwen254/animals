@@ -1642,18 +1642,23 @@ body.bg-seal {
 
 /* 背景层 */
 .immersion-background {
-    position: fixed;
-    top: 0;
-    left: 0;
+    position: relative;
+    overflow: hidden;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     z-index: 1;
 }
 
-.immersion-background iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
+/* 添加一个微小的边距遮挡 */
+.immersion-background::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 2;
 }
 
 /* 遮罩层 */
@@ -1671,24 +1676,63 @@ body.bg-seal {
 /* 内容层 */
 .immersion-content {
     position: fixed;
-    top: 20%; /* 最终上移位置 */
+    top: 15%; /* 从 18% 继续上移到 15% */
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 3;
-    color: #FFFFFF; /* 确保所有子元素默认继承纯白色 */
+    color: #FFFFFF;
     text-align: center;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    pointer-events: auto; /* 恢复内容区的鼠标事件 */
+    pointer-events: none; /* 禁用容器的鼠标事件，允许穿透 */
+    width: 100%;
 }
 
+/* 添加冰山装饰图样式 */
 .immersion-title {
     font-size: 3.5rem;
     font-weight: 300;
     letter-spacing: 2px;
-    /* 应用多层柔和阴影以增强在明亮背景下的可读性 */
     text-shadow: 0 1px 3px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.4), 0 0 15px rgba(0,0,0,0.3);
+    color: #FFFFFF;
+    margin-bottom: 2rem;
+    position: relative;
+    display: inline-block;
+    padding: 15px 40px;
+}
+
+/* 将动画效果单独应用到文字上 */
+.immersion-title span {
+    display: inline-block;
     animation: breath 4s ease-in-out infinite;
-    color: #FFFFFF; /* 明确设置为纯白色 */
+}
+
+.immersion-title::before {
+    content: '';
+    position: absolute;
+    top: calc(50% - 30px);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% + 40px);
+    height: calc(100% + 60px); /* 从 +20px 增加到 +60px */
+    background-image: url('../static/images/云.png');
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+    opacity: 1;
+    pointer-events: none;
+    /* 移除之前的混合模式和滤镜 */
+}
+
+/* 添加冰山logo样式 */
+.title-logo {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    vertical-align: middle;
+    margin-left: 15px;
+    opacity: 0.9;
+    pointer-events: none;
 }
 
 .immersion-subtitle {
@@ -1720,6 +1764,7 @@ body.bg-seal {
     transition: color 0.4s;
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
+    pointer-events: auto; /* 重新启用按钮的鼠标事件 */
 }
 
 .immersion-button:hover {
@@ -1765,4 +1810,69 @@ body.bg-seal {
     z-index: 9999;
     display: none;
     pointer-events: none;
+}
+
+.iframe-container {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* 确保容器是100%视窗高度 */
+    overflow: hidden;
+}
+
+.iframe-container iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: none;
+    top: 0;
+    left: 0;
+}
+
+.iframe-bottom-mask {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 90px; /* 增加遮罩高度以确保覆盖 */
+    background: linear-gradient(to top, rgba(0,0,0,0.95) 20%, rgba(0,0,0,0) 100%); /* 改为渐变遮罩 */
+    z-index: 1001;
+    pointer-events: none;
+}
+
+.logo-overlay {
+    position: absolute;
+    top: 10px;
+    left: 15px; /* 从 20px 向左移动到 15px */
+    z-index: 10;
+    pointer-events: none; /* 确保不影响下方热点的点击 */
+}
+
+.logo-overlay img {
+    width: 220px;
+    height: 65px; /* 从 55px 增加到 65px */
+    object-fit: cover;
+    opacity: 1;
+}
+
+.back-to-home {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 16px;
+    text-decoration: none;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.back-to-home:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    text-decoration: none;
 }
