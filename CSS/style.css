@@ -1637,3 +1637,132 @@ body.bg-walrus {
 body.bg-seal {
     background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('../static/images/bg_seal.jpg');
 }
+
+/* --- 沉浸式首页样式 --- */
+
+/* 背景层 */
+.immersion-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.immersion-background iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* 遮罩层 */
+.immersion-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%);
+    z-index: 2;
+    pointer-events: none; /* 让鼠标事件穿透遮罩层 */
+}
+
+/* 内容层 */
+.immersion-content {
+    position: fixed;
+    top: 20%; /* 最终上移位置 */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    color: #FFFFFF; /* 确保所有子元素默认继承纯白色 */
+    text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    pointer-events: auto; /* 恢复内容区的鼠标事件 */
+}
+
+.immersion-title {
+    font-size: 3.5rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    /* 应用多层柔和阴影以增强在明亮背景下的可读性 */
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.4), 0 0 15px rgba(0,0,0,0.3);
+    animation: breath 4s ease-in-out infinite;
+    color: #FFFFFF; /* 明确设置为纯白色 */
+}
+
+.immersion-subtitle {
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-top: 0.5rem;
+    opacity: 0.9;
+    color: #FFFFFF;
+    /* 应用同样的柔和阴影 */
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.4);
+}
+
+@keyframes breath {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.03); opacity: 1; }
+}
+
+/* 冰裂按钮 */
+.immersion-button {
+    display: inline-block;
+    margin-top: 2.5rem;
+    padding: 1rem 2.5rem;
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    color: #fff;
+    font-size: 1.2rem;
+    text-decoration: none; /* 确保无下划线 */
+    position: relative;
+    overflow: hidden;
+    transition: color 0.4s;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.immersion-button:hover {
+    color: #90e0ef; /* 冰蓝色 */
+    text-decoration: none; /* 再次确保无下划线 */
+}
+
+.immersion-button .crack {
+    position: absolute;
+    background: #90e0ef;
+    box-shadow: 0 0 5px #90e0ef, 0 0 10px #90e0ef;
+    transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.immersion-button .crack:nth-child(1) {
+    width: 2px; height: 100%;
+    top: -100%; left: 10%;
+}
+.immersion-button:hover .crack:nth-child(1) { transform: translateY(100%); }
+
+.immersion-button .crack:nth-child(2) {
+    width: 2px; height: 100%;
+    bottom: -100%; right: 20%;
+    transition-delay: 0.2s;
+}
+.immersion-button:hover .crack:nth-child(2) { transform: translateY(-100%); }
+
+.immersion-button .crack:nth-child(3) {
+    width: 100%; height: 2px;
+    top: 50%; right: -100%;
+    transform: translateY(-50%) rotate(20deg);
+    transition-delay: 0.1s;
+}
+.immersion-button:hover .crack:nth-child(3) { transform: translateX(-100%) translateY(-50%) rotate(20deg); }
+
+/* --- 真实冰裂转场动画 --- */
+#transition-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    display: none;
+    pointer-events: none;
+}

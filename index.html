@@ -3,122 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>极地动物保护</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-        
-        .vr-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-        
-        .vr-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        
-        .back-button {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 2;
-            padding: 10px 20px;
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            text-decoration: none;
-            transition: background 0.3s;
-        }
-        
-        .back-button:hover {
-            background: rgba(0, 0, 0, 0.7);
-        }
-    </style>
+    <title>极地回响：生命在消融</title>
+    <link rel="stylesheet" href="CSS/style.css">
 </head>
 <body>
-    <div class="vr-container">
-        <iframe id="vrIframe" src="https://www.720yun.com/vr/52ajt5sfsn1" frameborder="no" allow="autoplay"></iframe>
+    
+    <div class="immersion-background">
+        <iframe src="https://www.720yun.com/vr/52ajt5sfsn1" frameborder="0" allowfullscreen allow="autoplay; fullscreen; xr-spatial-tracking; vr"></iframe>
     </div>
-    <a href="about.html" class="back-button">返回首页</a>
+
+    <!-- <div class="immersion-overlay"></div> -->
+
+    <div class="immersion-content">
+        <h1 class="immersion-title">每一寸消融，都是生命的哀鸣</h1>
+        <p class="immersion-subtitle">当冰川退去，它们的家园随之沉没。触碰下方，亲眼见证这正在发生的危机。</p>
+        <a href="冰川消融.html" class="immersion-button">
+            <span class="crack"></span>
+            <span class="crack"></span>
+            <span class="crack"></span>
+            见证变化
+        </a>
+    </div>
+
+    <!-- 真实冰裂转场效果 -->
+    <canvas id="transition-canvas"></canvas>
 
     <script>
-        // 监听来自iframe的消息
-        window.addEventListener('message', function(event) {
-            // 确保消息来自720yun
-            if (event.origin.includes('720yun.com')) {
-                try {
-                    const data = event.data;
-                    console.log('收到消息:', data);
+    document.addEventListener('DOMContentLoaded', function() {
+        const transitionButton = document.querySelector('.immersion-button');
+        const canvas = document.getElementById('transition-canvas');
+        const ctx = canvas.getContext('2d');
+        const destination = transitionButton.href;
 
-                    // 检查是否是热点点击事件
-                    if (data && (data.type === 'hotspot' || data.type === 'pano_info')) {
-                        // 获取热点ID或标题
-                        const hotspotId = data.hotspotId || data.title || '';
-                        console.log('热点ID或标题:', hotspotId);
-                        
-                        // 转换为小写并去除空格
-                        const cleanId = hotspotId.toLowerCase().trim();
-                        
-                        // 根据热点ID跳转
-                        switch(cleanId) {
-                            case 'penguin':
-                                window.location.href = '帝企鹅.html';
-                                break;
-                            case 'polar_bear':
-                                window.location.href = '北极熊.html';
-                                break;
-                            case 'seal':
-                                window.location.href = '海狮.html';
-                                break;
-                            case 'walrus':
-                                window.location.href = '海象.html';
-                                break;
-                            case 'whale':
-                                window.location.href = '鲸鱼.html';
-                                break;
-                            default:
-                                // 如果是图文热点的点击，尝试从URL中获取ID
-                                if (data.url) {
-                                    const url = data.url.toLowerCase();
-                                    if (url.includes('penguin')) {
-                                        window.location.href = '帝企鹅.html';
-                                    } else if (url.includes('polar_bear')) {
-                                        window.location.href = '北极熊.html';
-                                    } else if (url.includes('seal')) {
-                                        window.location.href = '海狮.html';
-                                    } else if (url.includes('walrus')) {
-                                        window.location.href = '海象.html';
-                                    } else if (url.includes('whale')) {
-                                        window.location.href = '鲸鱼.html';
-                                    }
-                                }
-                                console.log('未匹配的热点:', hotspotId);
+        let animationFrame;
+        const crackImage = new Image();
+        crackImage.src = 'static/images/ice_surface.jpg';
+
+        let tintedSnapshotCanvas = null; // 用于存储预渲染的、带滤镜的快照
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            createTintedSnapshot(); // 窗口变化时重新生成快照
+        }
+
+        // 优化点：预先创建带滤镜的图像快照
+        function createTintedSnapshot() {
+            if (!crackImage.complete || crackImage.naturalWidth === 0) return;
+            tintedSnapshotCanvas = document.createElement('canvas');
+            const tintedCtx = tintedSnapshotCanvas.getContext('2d');
+            tintedSnapshotCanvas.width = canvas.width;
+            tintedSnapshotCanvas.height = canvas.height;
+            tintedCtx.drawImage(crackImage, 0, 0, canvas.width, canvas.height);
+            tintedCtx.fillStyle = 'rgba(10, 26, 47, 0.35)'; // 深寒滤镜
+            tintedCtx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        
+
+        function startTransition() {
+            canvas.style.display = 'block';
+            let progress = 0;
+            const duration = 2200;
+            let startTime = null;
+
+            function animate(timestamp) {
+                if (!startTime) startTime = timestamp;
+                const elapsedTime = timestamp - startTime;
+                progress = Math.min(elapsedTime / duration, 1);
+
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                if (progress < 0.4) {
+                    const radius = (canvas.width / 2) * (progress / 0.4);
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(canvas.width / 2, canvas.height / 2, radius, 0, Math.PI * 2);
+                    ctx.clip();
+                    // 直接使用预渲染的快照
+                    if (tintedSnapshotCanvas) {
+                        ctx.drawImage(tintedSnapshotCanvas, 0, 0);
+                    }
+                    ctx.restore();
+                } else {
+                    if (!canvas.particles) {
+                        canvas.particles = [];
+                        const cols = 20, rows = 20;
+                        const cellWidth = canvas.width / cols, cellHeight = canvas.height / rows;
+                        const points = [];
+                        for (let i = 0; i <= cols; i++) {
+                            points[i] = [];
+                            for (let j = 0; j <= rows; j++) {
+                                const x = i * cellWidth;
+                                const y = j * cellHeight;
+                                const jitterX = (i > 0 && i < cols) ? (Math.random() - 0.5) * cellWidth * 0.5 : 0;
+                                const jitterY = (j > 0 && j < rows) ? (Math.random() - 0.5) * cellHeight * 0.5 : 0;
+                                points[i][j] = { x: x + jitterX, y: y + jitterY };
+                            }
+                        }
+                        for (let i = 0; i < cols; i++) {
+                            for (let j = 0; j < rows; j++) {
+                                const p1 = points[i][j], p2 = points[i+1][j], p3 = points[i+1][j+1], p4 = points[i][j+1];
+                                canvas.particles.push({
+                                    verts: [p1, p2, p4], center: { x: (p1.x + p2.x + p4.x) / 3, y: (p1.y + p2.y + p4.y) / 3 },
+                                    speedX: (Math.random() - 0.5) * 40, speedY: (Math.random() - 0.5) * 40 + (Math.random() * 25), rotation: (Math.random() - 0.5) * 720,
+                                }, {
+                                    verts: [p2, p3, p4], center: { x: (p2.x + p3.x + p4.x) / 3, y: (p2.y + p3.y + p4.y) / 3 },
+                                    speedX: (Math.random() - 0.5) * 40, speedY: (Math.random() - 0.5) * 40 + (Math.random() * 25), rotation: (Math.random() - 0.5) * 720,
+                                });
+                            }
                         }
                     }
-                } catch (error) {
-                    console.error('处理消息时出错:', error);
+                    
+                    ctx.fillStyle = '#0a1a2f';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                    const collapseProgress = (progress - 0.4) / 0.6;
+                    
+                    canvas.particles.forEach(p => {
+                        const currentX = p.center.x + p.speedX * collapseProgress;
+                        const currentY = p.center.y + p.speedY * collapseProgress;
+                        const currentRotation = p.rotation * collapseProgress * Math.PI / 180;
+                        const currentAlpha = Math.max(0, 1 - collapseProgress * 1.2);
+
+                        ctx.save();
+                        ctx.globalAlpha = currentAlpha;
+                        ctx.translate(currentX, currentY);
+                        ctx.rotate(currentRotation);
+                        
+                        ctx.beginPath();
+                        ctx.moveTo(p.verts[0].x - p.center.x, p.verts[0].y - p.center.y);
+                        ctx.lineTo(p.verts[1].x - p.center.x, p.verts[1].y - p.center.y);
+                        ctx.lineTo(p.verts[2].x - p.center.x, p.verts[2].y - p.center.y);
+                        ctx.closePath();
+                        ctx.clip();
+                        
+                        // 直接从快照中截取，不再有复杂的实时绘制
+                        if (tintedSnapshotCanvas) {
+                            ctx.drawImage(tintedSnapshotCanvas, -currentX, -currentY, canvas.width, canvas.height);
+                        }
+                        
+                        ctx.restore();
+                    });
+                }
+                
+                if (progress < 1) {
+                    animationFrame = requestAnimationFrame(animate);
+                } else {
+                    window.location.href = destination;
                 }
             }
-        });
-
-        // 添加调试信息
-        document.getElementById('vrIframe').onload = function() {
-            console.log('VR iframe 加载完成');
+            animationFrame = requestAnimationFrame(animate);
+        }
+        
+        crackImage.onload = () => {
+            resizeCanvas(); // 图片加载后，生成快照并适应屏幕
         };
+
+        transitionButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            if (tintedSnapshotCanvas) { // 确保快照已生成
+                startTransition();
+            } else {
+                // 如果图片还没加载完就点击，则加载完后自动开始
+                crackImage.onload = () => {
+                    resizeCanvas();
+                    startTransition();
+                };
+            }
+        });
+    });
     </script>
+
 </body>
 </html>
