@@ -1608,3 +1608,32 @@ section {
     height: 200px !important;
   }
 }
+
+/* --- 新的静态背景图片样式 --- */
+body {
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    transition: background-image 1s ease-in-out;
+}
+
+body.bg-penguin {
+    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('../static/images/bg_penguin.jpg');
+}
+
+body.bg-polar-bear {
+    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('../static/images/bg_polar_bear.jpg');
+}
+
+body.bg-whale {
+    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('../static/images/bg_whale.jpg');
+}
+
+body.bg-walrus {
+    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('../static/images/bg_walrus.jpg');
+}
+
+body.bg-seal {
+    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('../static/images/bg_seal.jpg');
+}

@@ -62,26 +62,6 @@
     transition: all 0.3s ease;
 }
 
-/* 状态标签样式 */
-.animal-caption {
-    position: absolute;
-    top: 1.5rem;
-    left: 1.5rem;
-    z-index: 10;
-    transform: translateZ(31px);
-}
-
-.animal-status {
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-}
-
 /* 信息区域样式 */
 .animal-info {
     width: 50%;
@@ -176,7 +156,183 @@
     box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
 }
 
-/* 响应式调整 */
+/* --- 动物详情页（3D模型+信息卡）核心布局 --- */
+.animal-3d-main {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    padding: 20px; /* 恢复默认内边距 */
+    box-sizing: border-box;
+    gap: 2rem;
+}
+
+.animal-3d-main > * {
+    max-width: 80vw; /* 限制内容区的最大宽度 */
+    max-height: 80vh; /* 限制内容区的最大高度 */
+}
+
+.animal-3d-view {
+    flex: 4; /* 模型占40% */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    position: relative;
+}
+
+.animal-3d-view::before {
+    content: '';
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 15%, transparent 70%); /* 光晕不透明度 */
+    border-radius: 50%;
+    z-index: 1;
+    transition: background 0.3s ease;
+}
+
+.animal-3d-view:hover::before {
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 15%, transparent 70%); /* 悬停时更亮 */
+}
+
+
+#animal-3d-canvas {
+    position: relative;
+    z-index: 2;
+}
+
+.animal-info-panel {
+    flex: 6; /* 卡片占60% */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.animal-info-card {
+    background: rgba(255, 255, 255, 0.85); /* 恢复背景色 */
+    padding: 2.5rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    max-width: 600px; /* 再次增大卡片最大宽度 */
+    width: 100%;
+    color: #333;
+    animation: slideIn 1s ease-out forwards;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.animal-info-card::before {
+    content: 'POLARIS ARCHIVE';
+    position: absolute;
+    top: 1.5rem;
+    left: -45px;
+    transform: rotate(-90deg);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #999;
+    letter-spacing: 2px;
+}
+
+.animal-status {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #3b82f6;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.8rem;
+    border: 4px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 0 1px #3b82f6;
+    padding: 0;
+}
+
+.animal-title {
+    font-size: 3rem;
+    color: #111827;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    margin-top: 2.5rem;
+    line-height: 1.1;
+}
+
+.animal-latin {
+    display: block;
+    color: #64748b;
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-top: 0.5rem;
+}
+
+.animal-desc {
+    color: #334155;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    flex-grow: 1;
+    margin-bottom: 1.5rem;
+}
+
+.animal-stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    border-top: 1px dashed #cbd5e1;
+    padding-top: 1.5rem;
+    width: 100%;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 1rem;
+}
+
+.stat-label {
+    color: #475569;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.stat-value {
+    color: #1e293b;
+    font-weight: 600;
+    font-family: monospace;
+    background-color: #eef2f7;
+    padding: 0.2rem 0.6rem;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+
+/* --- 响应式设计 --- */
 @media (max-width: 1024px) {
     .animal-card {
         flex-direction: column;
@@ -199,919 +355,30 @@
     .animal-image-wrapper {
         height: 350px;
     }
-}
+    
+    .animal-3d-main {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+        padding: 20px;
+        gap: 0;
+    }
 
-/* 图片正方形展示与华丽特效 */
-.gallery-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 28px;
-    justify-content: center;
-    margin: 40px 0;
-}
+    .animal-3d-view {
+        flex: none;
+        width: 100%;
+        height: 50vh;
+        margin-bottom: 2rem;
+    }
 
-.gallery-item {
-    width: 240px;
-    height: 240px;
-    overflow: hidden;
-    border-radius: 22px;
-    box-shadow: 0 6px 32px rgba(0,0,0,0.16), 0 1.5px 6px rgba(0,150,255,0.08);
-    position: relative;
-    background: linear-gradient(135deg, #e0f7fa 0%, #fff 100%);
-    transition: transform 0.4s cubic-bezier(.25,1.7,.45,.87), box-shadow 0.4s, filter 0.4s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    perspective: 800px;
-}
+    .animal-info-panel {
+        flex: none;
+        width: 100%;
+        max-width: 500px;
+        height: auto;
+    }
 
-.gallery-item::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 70% 30%, rgba(0,200,255,0.12) 0%, transparent 70%);
-    z-index: 1;
-    pointer-events: none;
-}
-
-.gallery-item:hover {
-    transform: scale(1.12) rotate(-3deg);
-    box-shadow: 0 16px 48px rgba(0,0,0,0.22), 0 2px 12px rgba(0,200,255,0.18);
-    filter: brightness(1.08) saturate(1.18) drop-shadow(0 0 12px #00eaff88);
-    z-index: 3;
-}
-
-.gallery-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* 保证图片完整显示 */
-    background: radial-gradient(circle, #e0f7fa 60%, transparent 100%);
-    /* 可加虚化/渐变美化留白 */
-    transition: transform 0.5s cubic-bezier(.25,1.7,.45,.87), filter 0.4s;
-    z-index: 2;
-    position: relative;
-}
-
-.gallery-item:hover img {
-    /* 3D旋转+浮动 */
-    transform: scale(1.08) rotateY(12deg) rotateX(6deg) translateY(-8px) !important;
-    filter: brightness(1.1) drop-shadow(0 0 24px #00eaffcc);
-}
-
-.item-overlay {
-    position: absolute;
-    left: 0; right: 0; bottom: 0;
-    background: linear-gradient(0deg, rgba(0,0,0,0.55) 70%, transparent 100%);
-    color: #fff;
-    padding: 18px 14px 14px 14px;
-    opacity: 0;
-    transition: opacity 0.4s;
-    border-radius: 0 0 22px 22px;
-    pointer-events: none;
-    z-index: 4;
-}
-
-.gallery-item:hover .item-overlay {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-/* 动物详情弹窗3D特效（缩小版+交互） */
-.animal-modal {
-    position: fixed;
-    left: 0; top: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.55);
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    z-index: 99999;
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.4s;
-    perspective: 1200px;
-}
-.animal-modal.active {
-    visibility: visible;
-    opacity: 1;
-    display: flex !important;
-}
-.animal-modal-content {
-    background: #fff;
-    border-radius: 18px;
-    box-shadow: 0 12px 48px rgba(0,0,0,0.22);
-    padding: 28px 18px 18px 18px;
-    min-width: 200px;
-    max-width: 40vw;
-    max-height: 70vh;
-    overflow-y: auto;
-    transform: scale(0.7) rotateY(30deg);
-    transition: transform 0.5s cubic-bezier(.25,1.7,.45,.87);
-    will-change: transform;
-    position: relative;
-    display: flex !important;
-    flex-direction: column;
-    align-items: center;
-}
-.animal-modal-content img {
-    width: 120px !important;
-    height: 120px !important;
-    object-fit: cover;
-    border-radius: 12px;
-    margin-bottom: 12px;
-    box-shadow: 0 4px 16px rgba(59,130,246,0.18);
-    transition: transform 0.4s, box-shadow 0.4s;
-    cursor: pointer;
-}
-.animal-modal-content img:hover {
-    transform: scale(1.15) rotateY(10deg) rotateX(6deg);
-    box-shadow: 0 8px 32px #3b82f6cc;
-}
-.animal-modal-content .interactive-card {
-    background: linear-gradient(135deg,#e0f7fa 0%,#fff 100%);
-    border-radius: 14px;
-    box-shadow: 0 2px 12px rgba(0,150,255,0.10);
-    padding: 16px 12px;
-    margin: 10px 0;
-    transition: transform 0.4s, box-shadow 0.4s;
-    cursor: pointer;
-    perspective: 600px;
-}
-.animal-modal-content .interactive-card:hover {
-    transform: scale(1.06) rotateY(8deg) rotateX(4deg);
-    box-shadow: 0 8px 32px #00eaff88;
-}
-
-/* about.html动物卡片图片更大更炫酷3D特效 */
-.animal-image-wrapper {
-    height: 600px;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    perspective: 1200px;
-    position: relative;
-}
-.animal-image {
-    width: 100%;
-    height: 100%;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    border-radius: 1.2rem;
-    box-shadow: 0 32px 80px 0 rgba(0,200,255,0.18), 0 8px 32px rgba(0,0,0,0.18);
-    transition: transform 0.5s cubic-bezier(.25,1.7,.45,.87), box-shadow 0.5s, filter 0.4s;
-    will-change: transform;
-    background: linear-gradient(120deg,#e0f7fa 60%,#fff 100%);
-}
-.animal-image-wrapper:hover .animal-image {
-    transform: scale(1.12) rotateY(18deg) rotateX(8deg) translateY(-18px);
-    filter: brightness(1.08) saturate(1.18) drop-shadow(0 0 32px #00eaffcc);
-    box-shadow: 0 48px 120px 0 #00eaff55, 0 12px 48px #3b82f6cc;
-    z-index: 2;
-}
-
-/* 弹窗交互卡片3D翻转特效 */
-.interactive-card {
-    width: 160px;
-    height: 180px;
-    perspective: 800px;
-    margin: 0 auto 10px auto;
-    position: relative;
-    transition: box-shadow 0.3s;
-}
-.interactive-card .card-face {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 14px;
-    background: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 12px rgba(0,150,255,0.10);
-    transition: transform 0.6s cubic-bezier(.25,1.7,.45,.87);
-}
-.interactive-card .card-front {
-    z-index: 2;
-}
-.interactive-card .card-back {
-    transform: rotateY(180deg);
-    z-index: 1;
-}
-.interactive-card.flipped .card-front {
-    transform: rotateY(180deg);
-}
-.interactive-card.flipped .card-back {
-    transform: rotateY(0deg);
-}
-.interactive-card .card-desc {
-    margin-top: 10px;
-    font-size: 0.98rem;
-    color: #1e293b;
-    text-align: center;
-}
-
-/* 3D立体书本展示区（增强） */
-.book-3d-section {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 700px;
-  margin: 80px 0 100px 0;
-  z-index: 2;
-}
-.book-3d-container {
-  perspective: 2200px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-/* 让书本整体平躺（俯视） */
-.book-3d {
-  display: flex;
-  width: 1100px;
-  height: 600px;
-  position: relative;
-  transform-style: preserve-3d;
-  box-shadow: 0 64px 128px 0 #bcdffb55, 0 8px 32px #3b82f6cc;
-  border-radius: 32px;
-  background: linear-gradient(120deg,#f8fafc 60%,#e0f7fa 100%);
-  transition: transform 0.7s cubic-bezier(.25,1.7,.45,.87);
-  transform: rotateX(65deg);
-}
-/* 书本厚度立体感 */
-.book-3d::before {
-  content: '';
-  position: absolute;
-  left: 48%;
-  top: 0;
-  width: 4%;
-  height: 100%;
-  background: linear-gradient(90deg, #bcdffb 0%, #e0f7fa 50%, #bcdffb 100%);
-  box-shadow: 0 0 32px #bcdffb88;
-  z-index: 2;
-  border-radius: 12px;
-  pointer-events: none;
-}
-/* 书脊和多页厚度 */
-.book-spine {
-  position: absolute;
-  left: 49.5%;
-  top: 0;
-  width: 18px;
-  height: 100%;
-  background: linear-gradient(90deg, #bcdffb 0%, #e0f7fa 50%, #bcdffb 100%);
-  box-shadow: 0 0 32px #bcdffb88, 0 0 0 6px #e0f7fa inset;
-  z-index: 10;
-  border-radius: 12px;
-  pointer-events: none;
-}
-.book-multi-edges {
-  position: absolute;
-  left: 0; right: 0; bottom: -10px;
-  height: 24px;
-  display: flex;
-  justify-content: space-between;
-  z-index: 5;
-  pointer-events: none;
-}
-.book-edge-layer {
-  width: 22%;
-  height: 100%;
-  background: linear-gradient(180deg, #e0e7ef 60%, #bcdffb 100%);
-  border-radius: 0 0 16px 16px;
-  box-shadow: 0 8px 16px #bcdffb44;
-  margin: 0 2px;
-}
-.book-edge {
-  position: absolute;
-  top: 0; bottom: 0;
-  width: 18px;
-  background: linear-gradient(90deg, #e0e7ef 0%, #bcdffb 100%);
-  box-shadow: 2px 0 8px #bcdffb44 inset;
-  z-index: 2;
-  border-radius: 8px;
-  pointer-events: none;
-}
-.book-left .book-edge { left: -18px; height: 96%; }
-.book-right .book-edge { right: -18px; height: 96%; }
-
-/* 翻页动画层 */
-.book-flip-page {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(120deg,#fff 60%,#e0f7fa 100%);
-  box-shadow: 0 8px 32px #bcdffb44, 0 2px 12px #bcdffb22;
-  border-radius: 0 24px 24px 0;
-  z-index: 20;
-  transform-origin: left center;
-  display: none;
-  overflow: hidden;
-}
-.book-flip-page.flipping {
-  display: block;
-  animation: book-flip-cover 0.9s cubic-bezier(.25,1.7,.45,.87) forwards;
-}
-@keyframes book-flip-cover {
-  0% { transform: rotateY(0deg); }
-  100% { transform: rotateY(-180deg); }
-}
-
-.book-page {
-  width: 50%;
-  height: 100%;
-  position: relative;
-  background: #f5f7fa;
-  box-shadow: 0 2px 32px #bcdffb22 inset;
-  border-radius: 0 24px 24px 0;
-  overflow: visible;
-  transition: box-shadow 0.5s, transform 0.7s cubic-bezier(.25,1.7,.45,.87);
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.book-left {
-  border-radius: 24px 0 0 24px;
-  box-shadow: -12px 0 48px #bcdffb33 inset;
-  background: linear-gradient(120deg,#e0f7fa 60%,#fff 100%);
-  overflow: visible;
-}
-.book-right {
-  border-radius: 0 24px 24px 0;
-  box-shadow: 12px 0 48px #bcdffb33 inset;
-  background: linear-gradient(120deg,#fff 60%,#e0f7fa 100%);
-  overflow: visible;
-}
-/* 优化图片初始角度，保证可见性 */
-.book-photo {
-  width: 92%;
-  height: 86%;
-  object-fit: contain;
-  border-radius: 18px;
-  box-shadow: 0 16px 48px #38bdf8cc, 0 4px 24px #bcdffb88;
-  transition: transform 0.7s cubic-bezier(.25,1.7,.45,.87), box-shadow 0.5s;
-  transform: rotateX(75deg);
-  cursor: pointer;
-  will-change: transform;
-  background: #fff;
-}
-.book-photo:hover {
-  transform: rotateX(0deg);
-  box-shadow: 0 32px 96px #38bdf8cc, 0 12px 48px #bcdffb88;
-  z-index: 2;
-}
-.book-info {
-  padding: 48px 28px 48px 28px;
-  background: rgba(255,255,255,0.96);
-  border-radius: 18px;
-  box-shadow: 0 4px 24px #bcdffb44;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  min-width: 320px;
-  max-width: 90%;
-}
-.book-title {
-  font-size: 2.2rem;
-  color: #2563eb;
-  margin-bottom: 18px;
-}
-.book-desc {
-  font-size: 1.18rem;
-  color: #1e293b;
-  margin-bottom: 28px;
-}
-.book-detail-btn {
-  background: #38bdf8;
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  padding: 14px 38px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-  margin-top: 18px;
-}
-.book-detail-btn:hover {
-  background: #2563eb;
-}
-.book-3d::after {
-  content: '';
-  position: absolute;
-  left: 10%;
-  bottom: -48px;
-  width: 80%;
-  height: 60px;
-  background: radial-gradient(ellipse at center, #bcdffb55 0%, transparent 80%);
-  filter: blur(4px);
-  z-index: 0;
-  pointer-events: none;
-}
-/* 3D翻页动画 */
-.book-3d.flipping-left {
-  animation: book-flip-left 0.7s cubic-bezier(.25,1.7,.45,.87);
-}
-.book-3d.flipping-right {
-  animation: book-flip-right 0.7s cubic-bezier(.25,1.7,.45,.87);
-}
-@keyframes book-flip-left {
-  0% { transform: rotateY(0deg); }
-  40% { transform: rotateY(-30deg) scale(0.98); }
-  100% { transform: rotateY(0deg); }
-}
-@keyframes book-flip-right {
-  0% { transform: rotateY(0deg); }
-  40% { transform: rotateY(30deg) scale(0.98); }
-  100% { transform: rotateY(0deg); }
-}
-.book-nav-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(56,189,248,0.85);
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  width: 54px;
-  height: 54px;
-  font-size: 2.2rem;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 2px 12px #38bdf888;
-  z-index: 10;
-  transition: background 0.2s, transform 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0.92;
-}
-.book-prev { left: 18px; }
-.book-next { right: 18px; }
-.book-nav-btn:hover {
-  background: #2563eb;
-  transform: translateY(-50%) scale(1.12);
-}
-/* 详情弹窗 */
-.book-modal {
-  position: fixed;
-  left: 0; top: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 99999;
-}
-.book-modal-content {
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px #38bdf8cc;
-  padding: 32px 24px 24px 24px;
-  min-width: 260px;
-  max-width: 420px;
-  max-height: 70vh;
-  overflow-y: auto;
-  position: relative;
-  text-align: left;
-}
-.book-modal-close {
-  position: absolute;
-  right: 18px;
-  top: 12px;
-  font-size: 1.8rem;
-  color: #2563eb;
-  cursor: pointer;
-  font-weight: bold;
-  transition: color 0.2s;
-}
-.book-modal-close:hover {
-  color: #e67c73;
-}
-.animal-3d-main {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  min-height: 700px; /* 缩小最小高度 */
-  width: 100vw;
-  padding: 0 2rem; /* 缩小内边距 */
-  gap: 3rem; /* 增加/调整间距 */
-  background: transparent; /* 使3D区域背景透明以显示视频 */
-  overflow: hidden;
-}
-.animal-3d-view {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40vw; /* 调整基础宽度 */
-  height: 40vw; /* 保持正方形 */
-  max-width: 650px; /* 缩小最大尺寸 */
-  max-height: 650px; /* 缩小最大尺寸 */
-  min-width: 300px; /* 调整最小尺寸 */
-  min-height: 300px; /* 调整最小尺寸 */
-  margin: 0;
-  aspect-ratio: 1 / 1; /* 强制正方形 */
-  position: relative; /* 用于定位 */
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.25) 15%, rgba(255, 255, 255, 0) 65%); /* 再次调亮光晕，使其更集中 */
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.2); /* 边框也调亮 */
-  box-shadow: 0 0 60px rgba(255, 255, 255, 0.1) inset; /* 内阴影调亮 */
-}
-
-/* 背景冰川纹理 */
-.ice-texture {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: 
-    linear-gradient(120deg, rgba(255,255,255,0.10) 0%, transparent 100%),
-    url('../static/images/ice_surface.jpg') center center/cover no-repeat;
-  opacity: 0.32;
-  mix-blend-mode: lighten;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* 极光效果 */
-.aurora-effect {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: 
-    radial-gradient(ellipse at 60% 20%, rgba(80,200,255,0.18) 0%, rgba(0,0,0,0) 60%),
-    linear-gradient(120deg, rgba(0,255,255,0.13) 0%, rgba(0,0,0,0) 70%),
-    linear-gradient(200deg, rgba(255,200,255,0.10) 10%, rgba(0,0,0,0) 80%),
-    linear-gradient(217deg, rgba(48,206,231,0.10), rgba(48,206,231,0) 70%),
-    linear-gradient(127deg, rgba(63,251,161,0.10), rgba(63,251,161,0) 70%),
-    linear-gradient(336deg, rgba(149,48,231,0.10), rgba(149,48,231,0) 70%);
-  opacity: 0.85;
-  pointer-events: none;
-  z-index: 1;
-  animation: auroraFlow 15s ease-in-out infinite alternate;
-}
-
-@keyframes auroraFlow {
-  0% { filter: blur(0px) brightness(1); }
-  50% { filter: blur(2px) brightness(1.08); }
-  100% { filter: blur(0px) brightness(1); }
-}
-
-body {
-  background: #0a1a2f; /* 保留一个深色底色以防视频加载失败 */
-}
-
-.video-background-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  z-index: -1;
-}
-
-#background-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.video-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(10, 25, 48, 0.5); /* 降低遮罩不透明度以提亮视频 */
-}
-
-/* 移除旧的背景效果 */
-.ice-texture, .aurora-effect {
-  display: none !important;
-}
-
-/* Safari 兼容性修复 */
-.animal-status {
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-}
-
-.animal-info-panel {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;  /* 垂直居中 */
-  align-items: flex-start; /* 左对齐内容 */
-  height: auto; /* 高度自适应 */
-  min-width: 450px; /* 增加最小宽度 */
-  max-width: 550px; /* 增加最大宽度 */
-  flex: 1;
-  padding-left: 0; /* 重置内边距 */
-}
-
-.animal-info-card {
-  background: rgba(248, 250, 252, 0.95) !important; /* 米白档案卡背景 + 透明度，强制生效 */
-  color: #1e293b; /* 深色文字 */
-  border: 1px solid #e2e8f0;
-  border-radius: 16px; /* 稍微减小圆角 */
-  padding: 2rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  position: relative; /* 用于定位伪元素和状态戳 */
-  overflow: hidden; /* 防止状态戳溢出 */
-}
-
-.animal-info-card::before {
-  content: 'POLARIS ARCHIVE';
-  position: absolute;
-  top: 1.5rem;
-  left: -45px;
-  transform: rotate(-90deg);
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #cbd5e1;
-  letter-spacing: 2px;
-}
-
-.animal-status {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: #3b82f6; /* 统一的蓝色戳印 */
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  border: 4px solid #f8fafc;
-  box-shadow: 0 0 0 1px #3b82f6;
-  padding: 0;
-  margin: 0;
-  line-height: 1;
-}
-
-.animal-title {
-  background: none;
-  -webkit-background-clip: unset;
-  -webkit-text-fill-color: unset;
-  color: #111827;
-  text-shadow: none;
-  font-size: 6rem !important; /* 恢复到测试大小并强制生效 */
-  border-bottom: 2px solid #e2e8f0;
-  padding-bottom: 1rem;
-  margin-bottom: 1.5rem;
-  margin-top: 2rem; /* 为状态戳留出空间 */
-}
-
-.animal-latin {
-  color: #64748b;
-  font-size: 1.8rem !important; /* 增大并强制生效 */
-  margin-top: 0.25rem;
-}
-
-.animal-desc {
-  color: #334155;
-  font-size: 1.5rem !important; /* 增大并强制生效 */
-  line-height: 1.7;
-  margin-bottom: auto; /* 自动撑开，将stats推到底部 */
-  padding-bottom: 1.5rem;
-}
-
-.animal-stats {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.75rem;
-  border-top: 1px dashed #cbd5e1;
-  padding-top: 1.5rem;
-  margin: 0;
-  width: 100%;
-}
-
-.stat-item {
-  background: none;
-  border: none;
-  padding: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  font-size: 1rem;
-}
-
-.stat-item:hover {
-    transform: none; /* 移除旧的悬停效果 */
-    background: none;
-}
-
-.stat-label {
-  color: #475569;
-  font-weight: 500;
-  text-transform: none;
-  letter-spacing: 0;
-  font-size: 1.4rem !important; /* 增大并强制生效 */
-}
-
-.stat-value {
-  color: #1e293b;
-  font-weight: 600;
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
-  background-color: #eef2f7;
-  padding: 0.2rem 0.6rem;
-  border-radius: 6px;
-  font-size: 1.4rem !important; /* 增大并强制生效 */
-}
-
-/* 添加雪花效果 */
-@keyframes snowfall {
-  0% {
-    transform: translateY(-100%) rotate(0deg);
-}
-  100% {
-    transform: translateY(100vh) rotate(360deg);
-  }
-}
-
-.snowflake {
-  position: fixed;
-  color: #fff;
-  font-size: 1em;
-  font-family: Arial;
-  text-shadow: 0 0 1px #000;
-  animation: snowfall linear infinite;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* 响应式设计 */
-@media (max-width: 1200px) {
-  .animal-3d-main {
-    flex-direction: column;
-    height: auto;
-    min-height: 100vh;
-    justify-content: flex-start;
-  }
-  .animal-3d-view {
-    width: 90vw;
-    min-width: 0;
-    margin: 0 auto 2rem auto;
-    height: 40vh;
-    max-height: 60vh;
-    margin-left: 0;
-    margin-right: 0;
-  }
-  .animal-info-panel {
-    height: auto;
-    min-width: 0;
-    max-width: 100vw;
-    margin: 2rem auto;
-    padding-left: 0; /* 在移动端移除特定内边距 */
-    align-items: center; /* 在移动端居中对齐 */
-  }
-}
-
-@media (max-width: 768px) {
-  .animal-3d-main {
-    height: auto;
-    min-height: 100vh;
-}
-  
-  .animal-3d-view {
-  position: relative;
-    width: 90%;
-    height: 50vh;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-top: 2rem;
-    align-items: center; /* 在移动端居中对齐 */
-    text-align: center;
-  }
-  
-  .animal-info-panel {
-  position: relative;
-    width: 90%;
-    right: auto;
-    transform: none;
-    margin: 2rem auto;
-  }
-}
-
-/* 保证3D模型和卡片并排居中且可见 */
-.animal-3d-main {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  width: 100vw;
-  position: relative;
-  z-index: 10;
-}
-.animal-3d-view {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-.animal-3d-container {
-  width: 100%; /* 宽度占满容器 */
-  height: 100%; /* 高度占满容器 */
-  min-width: 0;
-  min-height: 0;
-  background: transparent;
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.animal-info-panel {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: stretch; /* 让子元素拉伸 */
-  width: 40vw; /* 同展示框 */
-  height: 40vw; /* 同展示框 */
-  max-width: 650px; /* 同展示框 */
-  max-height: 650px; /* 同展示框 */
-  min-width: 300px; /* 同展示框 */
-  min-height: 300px; /* 同展示框 */
-  padding: 0;
-}
-.animal-info-card {
-  font-size: 1rem; /* 调整基础字号 */
-}
-.animal-title {
-  font-size: 3rem; /* 调整标题字号 */
-}
-.animal-latin {
-  font-size: 1.2rem;
-}
-.animal-desc {
-  font-size: 1.1rem;
-}
-.animal-stats {
-  font-size: 1rem;
-}
-.stat-value {
-  font-size: 1.5rem;
-}
-@media (max-width: 900px) {
-  .animal-3d-main {
-    flex-direction: column !important;
-    height: auto;
-    min-height: 100vh;
-    justify-content: flex-start;
-  }
-  .animal-3d-view, .animal-info-panel {
-    width: 90vw; /* 调整宽度 */
-    max-width: 650px; /* 调整最大宽度 */
-    padding: 0;
-    align-items: center; /* 居中对齐 */
-  }
-  .animal-3d-container {
-    width: 90vw;
-    height: auto; /* 在移动端自适应高度 */
-    aspect-ratio: 1 / 1; /* 在移动端也尽量保持正方形 */
-    max-height: 500px;
-    min-width: 0;
-    min-height: 250px;
-  }
-  .animal-info-card {
-    text-align: left; /* 在移动端也保持左对齐 */
-  }
-  .animal-title {
-    font-size: 2.5rem !important; /* 增大并强制生效 */
-  }
-  .animal-desc {
-    font-size: 1.1rem !important; /* 增大并强制生效 */
-  }
-  .stat-label {
-    font-size: 1rem !important; /* 增大并强制生效 */
-  }
-  .stat-value {
-    font-size: 1.05rem !important; /* 增大并强制生效 */
-  }
+    .animal-title {
+        font-size: 2.5rem;
+    }
 }
