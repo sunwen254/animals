@@ -1866,6 +1866,7 @@ body.bg-seal {
     font-size: 16px;
     text-decoration: none;
     backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px); /* 为Safari添加兼容性前缀 */
     transition: all 0.3s ease;
     z-index: 1000;
 }
