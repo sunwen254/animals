@@ -2,35 +2,35 @@ document.addEventListener('DOMContentLoaded', function() {
     const animalData = {
         '北极熊': {
             name: '北极熊', latin: 'Ursus maritimus',
-            model: './static/models/polar_bear/scene.gltf',
+            model: 'static/models/polar_bear/scene.gltf',
             desc: '北极熊是北极地区的顶级掠食者，拥有厚厚的脂肪层和防水毛发，能在极寒环境中生存。',
             stats: [{label:'体重', value: '700kg'},{label:'寿命', value:'30年'},{label:'现状', value:'濒危'}],
             status: '濒危', color: '#00eaff', scale: 1.18
         },
         '帝企鹅': {
             name: '帝企鹅', latin: 'Aptenodytes forsteri',
-            model: './static/models/emperor_penguin/scene.gltf',
+            model: 'static/models/emperor_penguin/scene.gltf',
             desc: '帝企鹅是南极最大的企鹅，能在零下60℃的环境下孵化幼崽，群居生活，耐寒能力极强。',
             stats: [{label:'体重', value: '40kg'},{label:'寿命', value:'20年'},{label:'现状', value:'稳定'}],
             status: '稳定', color: '#ffb300', scale: 0.82
         },
         '海狮': {
             name: '海狮', latin: 'Otariinae',
-            model: './static/models/eared_seal_statuette/scene.gltf',
+            model: 'static/models/eared_seal_statuette/scene.gltf',
             desc: '海狮是极地重要的哺乳动物，适应寒冷水域，皮毛厚实，善于游泳和潜水。',
             stats: [{label:'体重', value: '300kg'},{label:'寿命', value:'25年'},{label:'现状', value:'易危'}],
             status: '易危', color: '#38bdf8', scale: 1.0
         },
         '海象': {
             name: '海象', latin: 'Odobenus rosmarus',
-            model: './static/models/walrus_horniman_museum_and_gardens/scene.gltf',
+            model: 'static/models/walrus_horniman_museum_and_gardens/scene.gltf',
             desc: '海象以其巨大的獠牙和胡须著称，主要分布在北极圈附近的浅海区域。',
             stats: [{label:'体重', value: '1200kg'},{label:'寿命', value:'40年'},{label:'现状', value:'易危'}],
             status: '易危', color: '#b8a77a', scale: 0.85
         },
         '鲸鱼': {
             name: '鲸鱼', latin: 'Balaenidae',
-            model: './static/models/whale_3d_model/scene.gltf',
+            model: 'static/models/whale_3d_model/scene.gltf',
             desc: '鲸鱼是极地海洋中体型最大的动物，善于长距离迁徙，寿命极长。',
             stats: [{label:'体重', value: '100000kg'},{label:'寿命', value:'90年'},{label:'现状', value:'受威胁'}],
             status: '受威胁', color: '#2563eb', scale: 1.7, verticalOffset: -0.6
