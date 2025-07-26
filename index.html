@@ -41,7 +41,7 @@
         const destination = transitionButton.href;
 
         // 创建音效实例
-        const crackSound = new Audio('/static/audio/effects/ice_crack.mp3');
+        const crackSound = new Audio('./static/audio/effects/ice_crack.mp3');
         crackSound.preload = 'auto';
 
         let animationFrame;
@@ -87,7 +87,12 @@
 
                 // 在裂纹开始时播放音效
                 if (progress >= 0.4 && !soundPlayed) {
-                    crackSound.play();
+                    console.log('开始播放冰块破裂音效');
+                    crackSound.play().then(() => {
+                        console.log('冰块破裂音效播放成功');
+                    }).catch(error => {
+                        console.error('冰块破裂音效播放失败:', error);
+                    });
                     soundPlayed = true;
                 }
 
