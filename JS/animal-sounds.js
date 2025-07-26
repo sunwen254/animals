@@ -2,12 +2,36 @@
 class SoundController {
     constructor() {
         this.currentSound = null;
+        this.currentAnimalType = null;
+        this.isPlaying = false;
     }
 
     async playSound(soundName) {
         console.log('开始播放声音:', soundName);
         
-        // 如果有正在播放的声音，停止它
+        // 如果点击的是同一个动物，且正在播放，则暂停
+        if (this.currentAnimalType === soundName && this.isPlaying && this.currentSound) {
+            console.log('暂停当前播放的声音');
+            this.currentSound.pause();
+            this.isPlaying = false;
+            this.updateButtonState(false);
+            return;
+        }
+        
+        // 如果点击的是同一个动物，且已暂停，则恢复播放
+        if (this.currentAnimalType === soundName && !this.isPlaying && this.currentSound) {
+            console.log('恢复播放声音');
+            try {
+                await this.currentSound.play();
+                this.isPlaying = true;
+                this.updateButtonState(true);
+                return;
+            } catch (error) {
+                console.error('恢复播放失败:', error);
+            }
+        }
+        
+        // 如果点击的是不同动物，或没有当前音频，则加载新音频
         if (this.currentSound) {
             this.currentSound.pause();
             this.currentSound.currentTime = 0;
@@ -19,6 +43,7 @@ class SoundController {
         
         const audio = new Audio(audioPath);
         this.currentSound = audio;
+        this.currentAnimalType = soundName;
 
         // 添加加载进度监听
         audio.addEventListener('loadstart', () => {
@@ -40,21 +65,16 @@ class SoundController {
                 try {
                     await audio.play();
                     console.log('音频播放成功');
-                    
-                    // 添加播放状态样式
-                    const btn = document.querySelector('.animal-sound-btn');
-                    if (btn) {
-                        btn.classList.add('playing');
-                        console.log('按钮样式已更新为播放状态');
-                    }
+                    this.isPlaying = true;
+                    this.updateButtonState(true);
 
                     // 监听播放结束
                     audio.onended = () => {
                         console.log('音频播放结束');
-                        if (btn) {
-                            btn.classList.remove('playing');
-                        }
+                        this.isPlaying = false;
+                        this.updateButtonState(false);
                         this.currentSound = null;
+                        this.currentAnimalType = null;
                     };
                 } catch (playError) {
                     console.error('播放失败:', playError);
@@ -105,6 +125,22 @@ class SoundController {
         } catch (error) {
             console.error('创建音频实例失败:', error);
             alert('音频初始化失败');
+        }
+    }
+
+    // 更新按钮状态
+    updateButtonState(isPlaying) {
+        const btn = document.querySelector('.animal-sound-btn');
+        if (btn) {
+            if (isPlaying) {
+                btn.classList.add('playing');
+                btn.innerHTML = '<span class="sound-icon">⏸️</span>暂停播放';
+                console.log('按钮样式已更新为播放状态');
+            } else {
+                btn.classList.remove('playing');
+                btn.innerHTML = '<span class="sound-icon">🔊</span>聆听声音';
+                console.log('按钮样式已更新为暂停状态');
+            }
         }
     }
 }
