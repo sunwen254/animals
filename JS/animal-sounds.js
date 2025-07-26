@@ -18,16 +18,17 @@ class SoundController {
             return;
         }
         
-        // 如果点击的是同一个动物，且已暂停，则恢复播放
+        // 如果点击的是同一个动物，且已暂停，则从头重新播放
         if (this.currentAnimalType === soundName && !this.isPlaying && this.currentSound) {
-            console.log('恢复播放声音');
+            console.log('从头重新播放声音');
+            this.currentSound.currentTime = 0; // 重置到开头
             try {
                 await this.currentSound.play();
                 this.isPlaying = true;
                 this.updateButtonState(true);
                 return;
             } catch (error) {
-                console.error('恢复播放失败:', error);
+                console.error('重新播放失败:', error);
             }
         }
         
