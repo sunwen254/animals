@@ -278,34 +278,68 @@ body.lock-scroll, html.lock-scroll {
 
 /* 调整图片容器样式以配合流水线 */
 .ice-img-wrap {
-  position: relative;
-  z-index: 3;
+    position: relative;
+    z-index: 3;
+    width: 750px;  /* 从600px增加到750px */
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease;
+    margin: 30px 0;  /* 增加上下间距 */
+    opacity: 0;  /* 初始设置为透明 */
+    transform: translateY(30px);  /* 初始位置略微向下 */
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.ice-img-wrap.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.ice-img-wrap.animate img {
+    animation: scrollTriggerScale 1.2s ease-in-out;
+}
+
+.ice-img-wrap img {
+    width: 100%;
+    height: auto;
+    border-radius: 18px;  /* 稍微增加圆角 */
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);  /* 增强阴影效果 */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    will-change: transform;  /* 优化动画性能 */
+}
+
+.ice-img-wrap:hover img {
+    transform: scale(1.03);  /* 增加悬停时的放大效果 */
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
 }
 
 .ice-img-wrap::after {
-  content: '';
-  position: absolute;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: rgba(79, 195, 247, 0.15);
-  box-shadow: 0 0 30px rgba(79, 195, 247, 0.3);
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2;
-  pointer-events: none;
+    content: '';
+    position: absolute;
+    width: 40px;  /* 进一步增加光晕效果大小 */
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(79, 195, 247, 0.18);
+    box-shadow: 0 0 50px rgba(79, 195, 247, 0.35);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    pointer-events: none;
 }
 
+/* 调整文字容器的样式 */
 .ice-caption {
-  position: relative;
-  z-index: 3;
-  font-size: 1.2rem;
-  color: #fff;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  line-height: 1.8;
-  flex: 1;
-  padding: 0 30px;  /* 添加内边距 */
+    position: relative;
+    z-index: 3;
+    font-size: 1.4rem;  /* 增加字体大小 */
+    color: #fff;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+    line-height: 1.9;
+    flex: 1;
+    padding: 0 50px;  /* 增加内边距 */
 }
 
 /* 调整奇数（右侧图片）section中的顺序 */
@@ -365,40 +399,57 @@ body.lock-scroll, html.lock-scroll {
   opacity: 1;
 }
 
-@media (max-width: 1200px) {
-  .ice-section.s-curve.even,
-  .ice-section.s-curve.odd,
-  .ice-section.s-curve.even.visible,
-  .ice-section.s-curve.odd.visible {
-    transform: none;
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-  
-  .ice-caption {
-    padding: 0 15px;
-  }
+/* 响应式调整 */
+@media (max-width: 1600px) {
+    .ice-img-wrap {
+        width: 650px;
+    }
 }
+
+@media (max-width: 1400px) {
+    .ice-img-wrap {
+        width: 580px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .ice-img-wrap {
+        width: 500px;
+    }
+    
+    .ice-caption {
+        font-size: 1.3rem;
+        padding: 0 30px;
+    }
+}
+
 @media (max-width: 900px) {
-  .ice-section.s-curve {
-    flex-direction: column !important;
-    padding: 60px 20px !important;
-    margin: 0 auto !important;
-    transform: none !important;
-  }
+    .ice-img-wrap {
+        width: 100%;
+        max-width: 700px;  /* 增加移动端最大宽度 */
+        margin: 25px auto;
+    }
+    
+    .ice-caption {
+        padding: 0 25px;
+        text-align: center;
+        font-size: 1.2rem;
+    }
+} 
 
-  .ice-section.s-curve.odd.visible,
-  .ice-section.s-curve.even.visible {
-    transform: none !important;
-  }
-
-  .ice-img-wrap {
-    width: 100%;
-    flex: none;
-  }
-
-  .ice-caption {
-    text-align: center;
-    font-size: 1.4rem;
-  }
+/* 添加滚动触发的动画效果 */
+@keyframes scrollTriggerScale {
+    0% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+    50% {
+        transform: scale(1.15);  /* 增加放大比例从1.08到1.15 */
+        filter: brightness(1.1);  /* 增加亮度 */
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);  /* 增强阴影 */
+    }
+    100% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
 } 

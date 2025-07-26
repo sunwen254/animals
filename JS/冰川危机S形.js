@@ -147,44 +147,53 @@ window.addEventListener('resize', () => {
   requestAnimationFrame(debouncedCreateFlowLine);
 });
 
-// 页面加载完成后初始化
-document.addEventListener('DOMContentLoaded', () => {
-  console.log('DOM Content Loaded');
-  
-  // 监听开始按钮点击事件
-  const startBtn = document.getElementById('startBtn');
-  if (startBtn) {
-    console.log('Start button found');
-    startBtn.addEventListener('click', () => {
-      console.log('Start button clicked');
-      // 确保图片已加载
-      const images = document.querySelectorAll('.ice-img-wrap img');
-      let loadedImages = 0;
-      const totalImages = images.length;
-      console.log('Total images:', totalImages);
-
-      function checkAllImagesLoaded() {
-        loadedImages++;
-        console.log(`Images loaded: ${loadedImages}/${totalImages}`);
-        if (loadedImages === totalImages) {
-          console.log('All images loaded, creating flow line...');
-          setTimeout(createFlowLine, 100);
-        }
-      }
-
-      images.forEach(img => {
-        if (img.complete) {
-          console.log('Image already loaded:', img.src);
-          checkAllImagesLoaded();
-        } else {
-          console.log('Waiting for image to load:', img.src);
-          img.addEventListener('load', checkAllImagesLoaded);
-        }
-      });
+// 添加滚动监听函数
+function handleScrollAnimation() {
+    const imgWraps = document.querySelectorAll('.ice-img-wrap');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const imgWrap = entry.target;
+                // 添加可见性类
+                imgWrap.classList.add('visible');
+                
+                // 延迟一小段时间后添加动画类，确保过渡更自然
+                setTimeout(() => {
+                    if (!imgWrap.classList.contains('animate')) {
+                        imgWrap.classList.add('animate');
+                        
+                        // 监听动画结束
+                        const img = imgWrap.querySelector('img');
+                        img.addEventListener('animationend', () => {
+                            imgWrap.classList.remove('animate');
+                            // 添加一个小延迟后才允许再次触发动画
+                            setTimeout(() => {
+                                imgWrap.dataset.canAnimate = 'true';
+                            }, 500);
+                        }, { once: true });
+                    }
+                }, 100);
+            } else {
+                // 当元素离开视图时，重置状态
+                const imgWrap = entry.target;
+                imgWrap.dataset.canAnimate = 'true';
+            }
+        });
+    }, {
+        threshold: 0.6,  // 增加触发阈值，当元素60%可见时触发
+        rootMargin: '-50px 0px'  // 添加一些边距，使触发更精确
     });
-  } else {
-    console.error('Start button not found!');
-  }
+    
+    imgWraps.forEach(wrap => {
+        wrap.dataset.canAnimate = 'true';
+        observer.observe(wrap);
+    });
+}
+
+// 页面加载完成后初始化滚动监听
+document.addEventListener('DOMContentLoaded', () => {
+    handleScrollAnimation();
 });
 
 // 解锁滚动并显示区块

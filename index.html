@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>极地回响：生命在消融</title>
-    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="CSS/style.css?v=1.1">
 </head>
 <body>
     
@@ -40,6 +40,10 @@
         const ctx = canvas.getContext('2d');
         const destination = transitionButton.href;
 
+        // 创建音效实例
+        const crackSound = new Audio('/static/audio/effects/ice_crack.mp3');
+        crackSound.preload = 'auto';
+
         let animationFrame;
         const crackImage = new Image();
         crackImage.src = 'static/images/ice_surface.jpg';
@@ -72,6 +76,7 @@
             let progress = 0;
             const duration = 2200;
             let startTime = null;
+            let soundPlayed = false;
 
             function animate(timestamp) {
                 if (!startTime) startTime = timestamp;
@@ -79,6 +84,12 @@
                 progress = Math.min(elapsedTime / duration, 1);
 
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // 在裂纹开始时播放音效
+                if (progress >= 0.4 && !soundPlayed) {
+                    crackSound.play();
+                    soundPlayed = true;
+                }
 
                 if (progress < 0.4) {
                     const radius = (canvas.width / 2) * (progress / 0.4);

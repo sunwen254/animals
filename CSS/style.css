@@ -1709,11 +1709,11 @@ body.bg-seal {
 .immersion-title::before {
     content: '';
     position: absolute;
-    top: calc(50% - 30px);
+    top: calc(50% - 40px); /* 向上移动以适应更高的云 */
     left: 50%;
     transform: translate(-50%, -50%);
-    width: calc(100% + 40px);
-    height: calc(100% + 60px); /* 从 +20px 增加到 +60px */
+    width: calc(100% + 60px); /* 宽度略增 */
+    height: calc(100% + 120px); /* 高度从+60px增大到+120px */
     background-image: url('../static/images/云.png');
     background-size: 100% 100%;
     background-position: center;

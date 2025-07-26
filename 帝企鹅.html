@@ -18,14 +18,18 @@
         </div>
         <div class="animal-info-panel">
             <div class="animal-info-card">
-                <div class="animal-status">稳定</div>
+                <div class="animal-status">易危</div>
                 <h1 class="animal-title">帝企鹅<span class="animal-latin">Aptenodytes forsteri</span></h1>
-                <p class="animal-desc">帝企鹅是南极最大的企鹅，能在零下60℃的环境下孵化幼崽，群居生活，耐寒能力极强。它们在极寒环境中繁衍生息，展现了生命的顽强。</p>
+                <p class="animal-desc">帝企鹅是世界上最大的企鹅，能在极寒环境中生存，具有出色的游泳和潜水能力。</p>
                 <div class="animal-stats">
                     <div class="stat-item"><span class="stat-label">体重</span><span class="stat-value">40kg</span></div>
                     <div class="stat-item"><span class="stat-label">寿命</span><span class="stat-value">20年</span></div>
-                    <div class="stat-item"><span class="stat-label">现状</span><span class="stat-value">稳定</span></div>
+                    <div class="stat-item"><span class="stat-label">现状</span><span class="stat-value">易危</span></div>
                 </div>
+                <button class="animal-sound-btn" onclick="playAnimalSound('penguin')">
+                    <span class="sound-icon">🔊</span>
+                    聆听声音
+                </button>
             </div>
         </div>
     </div>
@@ -33,5 +37,6 @@
     <script src="./JS/OrbitControls.js"></script>
     <script src="./JS/GLTFLoader.js"></script>
     <script src="./JS/animals.js" data-animal="帝企鹅"></script>
+    <script src="./JS/animal-sounds.js"></script>
 </body>
 </html> 

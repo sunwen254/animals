@@ -331,6 +331,37 @@
     }
 }
 
+.animal-sound-btn {
+    background-color: #1a3b5d;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    margin-top: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.animal-sound-btn:hover {
+    background-color: #2a4b6d;
+    transform: scale(1.05);
+}
+
+.animal-sound-btn:active {
+    transform: scale(0.95);
+}
+
+.sound-icon {
+    font-size: 1.2em;
+}
+
+.animal-sound-btn.playing {
+    background-color: #e67c73;
+}
+
 
 /* --- 响应式设计 --- */
 @media (max-width: 1024px) {

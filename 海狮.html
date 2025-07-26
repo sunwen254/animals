@@ -19,13 +19,17 @@
         <div class="animal-info-panel">
             <div class="animal-info-card">
                 <div class="animal-status">易危</div>
-                <h1 class="animal-title">海狮<span class="animal-latin">Otariinae</span></h1>
-                <p class="animal-desc">海狮是极地重要的哺乳动物，适应寒冷水域，皮毛厚实，善于游泳和潜水。</p>
+                <h1 class="animal-title">海狮<span class="animal-latin">Otariidae</span></h1>
+                <p class="animal-desc">海狮是一种灵活的海洋哺乳动物，擅长游泳和捕食，在极地生态系统中扮演重要角色。</p>
                 <div class="animal-stats">
                     <div class="stat-item"><span class="stat-label">体重</span><span class="stat-value">300kg</span></div>
                     <div class="stat-item"><span class="stat-label">寿命</span><span class="stat-value">25年</span></div>
                     <div class="stat-item"><span class="stat-label">现状</span><span class="stat-value">易危</span></div>
                 </div>
+                <button class="animal-sound-btn" onclick="playAnimalSound('seal')">
+                    <span class="sound-icon">🔊</span>
+                    聆听声音
+                </button>
             </div>
         </div>
     </div>
@@ -33,5 +37,6 @@
     <script src="./JS/OrbitControls.js"></script>
     <script src="./JS/GLTFLoader.js"></script>
     <script src="./JS/animals.js" data-animal="海狮"></script>
+    <script src="./JS/animal-sounds.js"></script>
 </body>
 </html> 
