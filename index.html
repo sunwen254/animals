@@ -43,6 +43,17 @@
         // 创建音效实例
         const crackSound = new Audio('./static/audio/effects/ice_crack.mp3');
         crackSound.preload = 'auto';
+        
+        // 添加音效加载错误处理
+        crackSound.addEventListener('error', (e) => {
+            console.error('冰块破裂音效加载失败:', e);
+            console.error('错误代码:', crackSound.error?.code);
+            console.error('错误信息:', crackSound.error?.message);
+        });
+        
+        crackSound.addEventListener('canplaythrough', () => {
+            console.log('冰块破裂音效加载完成');
+        });
 
         let animationFrame;
         const crackImage = new Image();
